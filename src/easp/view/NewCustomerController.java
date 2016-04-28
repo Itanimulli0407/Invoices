@@ -32,6 +32,8 @@ public class NewCustomerController {
 	private TextField phoneField;
 
 	@FXML
+	private Button moreButton;
+	@FXML
 	private Button okButton;
 	@FXML
 	private Button cancelButton;
