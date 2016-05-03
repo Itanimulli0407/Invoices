@@ -30,9 +30,13 @@ public class NewCustomerController {
 	private TextField mailField;
 	@FXML
 	private TextField phoneField;
-
 	@FXML
-	private Button moreButton;
+	private TextField mobileField;
+	@FXML
+	private TextField workField;
+	@FXML
+	private TextField faxField;
+	
 	@FXML
 	private Button okButton;
 	@FXML
@@ -40,7 +44,7 @@ public class NewCustomerController {
 	@FXML
 	private Button clearButton;
 
-	private TextField[] textFieldArray = new TextField[7];
+	private TextField[] textFieldArray = new TextField[10];
 
 	private Customer newCustomer = new Customer();
 
@@ -64,7 +68,10 @@ public class NewCustomerController {
 		textFieldArray[3] = this.zipCityField;
 		textFieldArray[4] = this.birthdayField;
 		textFieldArray[5] = this.phoneField;
-		textFieldArray[6] = this.mailField;
+		textFieldArray[6] = this.mobileField;
+		textFieldArray[7] = this.workField;
+		textFieldArray[8] = this.faxField;
+		textFieldArray[9] = this.mailField;
 
 		// handle clear button
 		this.clearButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -106,6 +113,9 @@ public class NewCustomerController {
 		String birthday = birthdayField.getText();
 		String mail = mailField.getText();
 		String phone = phoneField.getText();
+		String mobile = mobileField.getText();
+		String work = workField.getText();
+		String fax = faxField.getText();
 
 		newCustomer.setFirstName(new SimpleStringProperty(firstName));
 		newCustomer.setLastName(new SimpleStringProperty(name));
@@ -130,7 +140,10 @@ public class NewCustomerController {
 		newCustomer.setMail(new SimpleStringProperty(mail));
 		newCustomer.setBirthday(new SimpleStringProperty(birthday));
 		newCustomer.setPhone(new SimpleStringProperty(phone));
-	}
+		newCustomer.setMobile(new SimpleStringProperty(mobile));
+		newCustomer.setWork(new SimpleStringProperty(work));
+		newCustomer.setFax(new SimpleStringProperty(fax));
+}
 
 	/**
 	 * 
@@ -144,6 +157,9 @@ public class NewCustomerController {
 		String birthday = birthdayField.getText();
 		String mail = mailField.getText();
 		String phone = phoneField.getText();
+		String mobile = mobileField.getText();
+		String work = workField.getText();
+		String fax = faxField.getText();
 
 		// catching wrong inputs
 		if (name.length() == 0 || firstName.length() == 0) {
@@ -163,7 +179,7 @@ public class NewCustomerController {
 					"Das eingegebene Geburtsdatum hat das falsche Format. Erwartet wird eine Eingabe der Form TT.MM.JJJJ");
 			return false;
 		}
-		if (street.length() != 0 && !street.matches("[a-zA-Z_0-9äöüß\\s]+\\s\\d+")) {
+		if (street.length() != 0 && !street.matches("[a-zA-Z_0-9äöüß\\s]+\\s+[a-zA-Z_0-9-]")) {
 			this.showErrorMessage(
 					"Die eingegebene Adresse ist nicht korrekt. Erwartet wird eine Eingabe der Form \"Straße Hausnr\"");
 			return false;
@@ -181,6 +197,21 @@ public class NewCustomerController {
 		if (phone.length() != 0 && !phone.matches("[0-9/\\- +]+")) {
 			this.showErrorMessage(
 					"Die eingegebene Telefonnummer ist nicht korrekt. Sie enthält womöglich Buchstaben oder unzulässige Zeichen");
+			return false;
+		}
+		if (mobile.length() != 0 && !mobile.matches("[0-9/\\- +]+")) {
+			this.showErrorMessage(
+					"Die eingegebene Mobilnummer ist nicht korrekt. Sie enthält womöglich Buchstaben oder unzulässige Zeichen");
+			return false;
+		}
+		if (work.length() != 0 && !work.matches("[0-9/\\- +]+")) {
+			this.showErrorMessage(
+					"Die eingegebene geschäftliche Nummer ist nicht korrekt. Sie enthält womöglich Buchstaben oder unzulässige Zeichen");
+			return false;
+		}
+		if (fax.length() != 0 && !fax.matches("[0-9/\\- +]+")) {
+			this.showErrorMessage(
+					"Die eingegebene Faxnummer ist nicht korrekt. Sie enthält womöglich Buchstaben oder unzulässige Zeichen");
 			return false;
 		}
 		// input is fine

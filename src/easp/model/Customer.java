@@ -14,6 +14,9 @@ public class Customer {
 	private StringProperty city;
 	private StringProperty mail;
 	private StringProperty phone;
+	private StringProperty mobile;
+	private StringProperty work;
+	private StringProperty fax;
 	private IntegerProperty id = new SimpleIntegerProperty(0); // Continous (->
 																// Preferences)
 
@@ -72,6 +75,18 @@ public class Customer {
 	public StringProperty getPhone(){
 		return  phone;
 	}
+	
+	public StringProperty getMobile(){
+		return  mobile;
+	}
+	
+	public StringProperty getWork(){
+		return  work;
+	}
+	
+	public StringProperty getFax(){
+		return  fax;
+	}
 
 	public void setFirstName(StringProperty firstName) {
 		this.firstName = firstName;
@@ -107,6 +122,18 @@ public class Customer {
 	
 	public void setPhone(StringProperty phone){
 		this.phone = phone;
+	}
+	
+	public void setMobile(StringProperty mobile){
+		this.mobile = mobile;
+	}
+	
+	public void setFax(StringProperty fax){
+		this.fax = fax;
+	}
+	
+	public void setWork(StringProperty work){
+		this.work = work;
 	}
 
 }
