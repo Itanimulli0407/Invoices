@@ -139,7 +139,31 @@
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="phoneField" prefWidth="196.0" promptText="Informationen eingeben" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <TextField fx:id="privateField" prefWidth="196.0" promptText="Informationen eingeben" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="mobileField" promptText="Informationen eingeben" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="workField" promptText="Informationen eingeben" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="faxField" promptText="Informationen eingeben" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <font>
                   <Font size="14.0" />
                </font>
@@ -178,30 +202,6 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField promptText="Informationen eingeben" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="20.0" right="20.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField promptText="Informationen eingeben" GridPane.columnIndex="1" GridPane.rowIndex="7">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="20.0" right="20.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField promptText="Informationen eingeben" GridPane.columnIndex="1" GridPane.rowIndex="8">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="20.0" right="20.0" />
-               </GridPane.margin>
-            </TextField>
          </children>
       </GridPane>
    </children>

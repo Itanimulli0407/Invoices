@@ -29,7 +29,7 @@ public class NewCustomerController {
 	@FXML
 	private TextField mailField;
 	@FXML
-	private TextField phoneField;
+	private TextField privateField;
 	@FXML
 	private TextField mobileField;
 	@FXML
@@ -67,7 +67,7 @@ public class NewCustomerController {
 		textFieldArray[2] = this.streetField;
 		textFieldArray[3] = this.zipCityField;
 		textFieldArray[4] = this.birthdayField;
-		textFieldArray[5] = this.phoneField;
+		textFieldArray[5] = this.privateField;
 		textFieldArray[6] = this.mobileField;
 		textFieldArray[7] = this.workField;
 		textFieldArray[8] = this.faxField;
@@ -112,7 +112,7 @@ public class NewCustomerController {
 		String zipCity = zipCityField.getText();
 		String birthday = birthdayField.getText();
 		String mail = mailField.getText();
-		String phone = phoneField.getText();
+		String phone = privateField.getText();
 		String mobile = mobileField.getText();
 		String work = workField.getText();
 		String fax = faxField.getText();
@@ -139,7 +139,7 @@ public class NewCustomerController {
 		newCustomer.setStreet(new SimpleStringProperty(street));
 		newCustomer.setMail(new SimpleStringProperty(mail));
 		newCustomer.setBirthday(new SimpleStringProperty(birthday));
-		newCustomer.setPhone(new SimpleStringProperty(phone));
+		newCustomer.setPrivate(new SimpleStringProperty(phone));
 		newCustomer.setMobile(new SimpleStringProperty(mobile));
 		newCustomer.setWork(new SimpleStringProperty(work));
 		newCustomer.setFax(new SimpleStringProperty(fax));
@@ -156,7 +156,7 @@ public class NewCustomerController {
 		String zipCity = zipCityField.getText();
 		String birthday = birthdayField.getText();
 		String mail = mailField.getText();
-		String phone = phoneField.getText();
+		String phone = privateField.getText();
 		String mobile = mobileField.getText();
 		String work = workField.getText();
 		String fax = faxField.getText();

@@ -13,7 +13,7 @@ public class Customer {
 	private IntegerProperty zipCode;
 	private StringProperty city;
 	private StringProperty mail;
-	private StringProperty phone;
+	private StringProperty privatePhone;
 	private StringProperty mobile;
 	private StringProperty work;
 	private StringProperty fax;
@@ -31,13 +31,17 @@ public class Customer {
 		this.street = new SimpleStringProperty("");
 		this.zipCode = new SimpleIntegerProperty(0);
 		this.city = new SimpleStringProperty("");
-		this.phone = new SimpleStringProperty("");
+		this.privatePhone = new SimpleStringProperty("");
+		this.mobile = new SimpleStringProperty("");
+		this.work = new SimpleStringProperty("");
+		this.fax = new SimpleStringProperty("");
+
 		// TODO: Continous customer ids
 	}
 
 	public String toString() {
 		return (firstName.toString() + "\n" + lastName.toString() + "\n" + birthday.toString() + "\n" + mail.toString()
-				+ "\n" + street.toString() + "\n" + zipCode.toString() + "\n" + city.toString() + "\n" + phone.toString());
+				+ "\n" + street.toString() + "\n" + zipCode.toString() + "\n" + city.toString() + "\n" + privatePhone.toString());
 	}
 
 	public StringProperty getFirstName() {
@@ -72,8 +76,8 @@ public class Customer {
 		return id;
 	}
 	
-	public StringProperty getPhone(){
-		return  phone;
+	public StringProperty getPrivate(){
+		return  privatePhone;
 	}
 	
 	public StringProperty getMobile(){
@@ -120,8 +124,8 @@ public class Customer {
 		this.id = id;
 	}
 	
-	public void setPhone(StringProperty phone){
-		this.phone = phone;
+	public void setPrivate(StringProperty phone){
+		this.privatePhone = phone;
 	}
 	
 	public void setMobile(StringProperty mobile){

@@ -29,7 +29,13 @@ public class CustomerOverviewController {
 	@FXML
 	private Label mailLabel;
 	@FXML
-	private Label phoneLabel;
+	private Label privateLabel;
+	@FXML
+	private Label mobileLabel;
+	@FXML
+	private Label workLabel;
+	@FXML
+	private Label faxLabel;
 
 	private GUIMain main;
 
@@ -56,7 +62,10 @@ public class CustomerOverviewController {
 
 	public void showCustomerDetails(Customer c) {
 		this.nameLabel.setText(c.getFirstName().get() + " " + c.getLastName().get());
-		this.phoneLabel.setText(c.getPhone().get());
+		this.privateLabel.setText(c.getPrivate().get());
+		this.mobileLabel.setText(c.getMobile().get());
+		this.workLabel.setText(c.getWork().get());
+		this.faxLabel.setText(c.getFax().get());
 		this.birthdayLabel.setText(c.getBirthday().get());
 		this.mailLabel.setText(c.getMail().get());
 		this.streetLabel.setText(c.getStreet().get());
