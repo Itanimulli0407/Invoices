@@ -6,6 +6,7 @@ import java.io.IOException;
 import easp.model.Customer;
 import easp.view.CustomerOverviewController;
 import easp.view.NewCustomerController;
+import easp.view.NewInvoiceController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -103,6 +104,11 @@ public class GUIMain extends Application {
 		// create entries for menuCreate
 		// TODO: setOnAction handling
 		MenuItem invoice = new MenuItem("Rechnung");
+		invoice.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t){
+				showNewInvoiceView();
+			}
+		});
 		MenuItem offer = new MenuItem("Angebot");
 		MenuItem reminder = new MenuItem("Zahlungserinnerung");
 		menuCreate.getItems().addAll(invoice, offer, reminder);
@@ -158,6 +164,30 @@ public class GUIMain extends Application {
 			popup.showAndWait();
 		} catch (IOException e) {
 			System.err.println("Error while loading new customer view");
+			e.printStackTrace();
+		}
+	}
+	
+	private void showNewInvoiceView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUIMain.class.getResource("view" + File.separator + "NewInvoiceView.fxml"));
+			AnchorPane newInvoiceView = (AnchorPane) loader.load();
+						
+			Stage popup = new Stage();
+			popup.setTitle("Neue Rechnung");
+			popup.initModality(Modality.WINDOW_MODAL);
+			popup.initOwner(this.primaryStage);
+			Scene popupScene = new Scene(newInvoiceView);
+			popup.setScene(popupScene);
+			
+			NewInvoiceController controller = loader.getController();
+			controller.setStage(popup);
+			controller.setMain(this);
+			
+			popup.showAndWait();
+		} catch (IOException e) {
+			System.err.println("Error while loading new invoice view");
 			e.printStackTrace();
 		}
 	}
