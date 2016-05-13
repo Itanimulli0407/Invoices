@@ -7,7 +7,7 @@ import easp.Checker;
 //import java.util.List;
 
 import easp.GUIMain;
-import easp.PDFTester;
+import easp.PDFMaker;
 import easp.model.Customer;
 import easp.model.Position;
 import javafx.event.ActionEvent;
@@ -71,8 +71,8 @@ public class NewInvoiceController {
 						System.out.println(pos.toString());
 					}
 					// Only for testing purposes
-					PDFTester tester = new PDFTester();
-					tester.testPdf(customer, positions);
+					PDFMaker tester = new PDFMaker();
+					tester.makePDF(customer, positions);
 					stage.close();
 				}
 			}

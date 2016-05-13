@@ -197,13 +197,14 @@ public class Position {
 						pricePerUnitField.setText(f.format(pricePerUnit) + "€");
 					}
 				} else {
-					// Remove text when text field is focused and remove red borders
+					// Remove text when text field is focused and remove red
+					// borders
 					pricePerUnitField.setStyle("");
 					pricePerUnitField.setText("");
 				}
 			}
 		});
-		
+
 		// Field for end price. Will be computed automatically by computePrice()
 		priceField = new TextField();
 		priceField.setFont(new Font(14));
@@ -228,31 +229,35 @@ public class Position {
 
 	public boolean setInformations() {
 		boolean thrown = false;
-		try{
+		try {
 			checker.checkArticle(articleField.getText());
-		} catch (InputException e){
-			articleField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+		} catch (InputException e) {
+			articleField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
-		try{
+		try {
 			checker.checkAmount(amountField.getText());
-		} catch (InputException e){
-			amountField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+		} catch (InputException e) {
+			amountField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
-		try{
+		try {
 			checker.checkUnit(unitField.getText());
-		} catch (InputException e){
-			unitField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+		} catch (InputException e) {
+			unitField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
-		try{
+		try {
 			checker.checkPPU(pricePerUnitField.getText());
-		} catch (InputException e){
-			pricePerUnitField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+		} catch (InputException e) {
+			pricePerUnitField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
-		if (thrown) 
+		if (thrown)
 			return false;
 		else {
 			this.article = articleField.getText();

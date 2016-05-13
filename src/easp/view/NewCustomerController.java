@@ -45,7 +45,7 @@ public class NewCustomerController {
 	private Button cancelButton;
 	@FXML
 	private Button clearButton;
-	
+
 	private Customer newCustomer = new Customer();
 
 	private Checker checker;
@@ -246,7 +246,8 @@ public class NewCustomerController {
 			checker.checkFirstName(firstNameField.getText());
 			firstNameField.setStyle("");
 		} catch (InputException e) {
-			firstNameField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+			firstNameField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
 
@@ -254,7 +255,8 @@ public class NewCustomerController {
 			checker.checkLastName(nameField.getText());
 			nameField.setStyle("");
 		} catch (InputException e) {
-			nameField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+			nameField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
 
@@ -262,7 +264,8 @@ public class NewCustomerController {
 			checker.checkBirthday(birthdayField.getText());
 			birthdayField.setStyle("");
 		} catch (InputException e) {
-			birthdayField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+			birthdayField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
 
@@ -270,7 +273,8 @@ public class NewCustomerController {
 			checker.checkPhoneNumber(privateField.getText());
 			privateField.setStyle("");
 		} catch (InputException e) {
-			privateField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+			privateField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
 
@@ -278,7 +282,8 @@ public class NewCustomerController {
 			checker.checkPhoneNumber(mobileField.getText());
 			mobileField.setStyle("");
 		} catch (InputException e) {
-			mobileField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+			mobileField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
 
@@ -286,7 +291,8 @@ public class NewCustomerController {
 			checker.checkPhoneNumber(workField.getText());
 			workField.setStyle("");
 		} catch (InputException e) {
-			workField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+			workField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
 
@@ -294,7 +300,8 @@ public class NewCustomerController {
 			checker.checkPhoneNumber(faxField.getText());
 			faxField.setStyle("");
 		} catch (InputException e) {
-			faxField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+			faxField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
 
@@ -302,7 +309,8 @@ public class NewCustomerController {
 			checker.checkMail(mailField.getText());
 			mailField.setStyle("");
 		} catch (InputException e) {
-			mailField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+			mailField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
 
@@ -311,8 +319,10 @@ public class NewCustomerController {
 			streetField.setStyle("");
 			zipCityField.setStyle("");
 		} catch (InputException e) {
-			streetField.setStyle("-fx-border-color: red; -fx-border-width: 2");
-			zipCityField.setStyle("-fx-border-color: red; -fx-border-width: 2");
+			streetField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
+			zipCityField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
 		}
 

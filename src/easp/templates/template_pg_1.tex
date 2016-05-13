@@ -60,7 +60,7 @@ $city\\
    \textbf{Pos} & \textbf{Menge} & \textbf{ME} & \textbf{Bezeichung} & \textbf{E-Preis-\EUR{}} & \textbf{G-Preis-\EUR{}} \\
    \hline
    	#foreach( $name in $services )
-  		Position & $name[0] & $name[1] & $name[2] & $name[3] & $name[4] \\
+  		$name[0] & $name[1] & $name[2] & $name[3] & $name[4] & $name[5] \\
 	#end 
 \end{tabularx}
 
@@ -69,13 +69,13 @@ $city\\
 \begin{flushright}
 \hrule
 \smallskip
-netto \hspace{1cm} \EUR{15,00} \\
+netto \hspace{1cm} $netto \\
 \smallskip
-19\% MwSt.. \hspace{1cm} \EUR{2,85} \\
+19\% MwSt.. \hspace{1cm} $mwst \\
 \smallskip
 {\hrule height 2pt}
 \smallskip
-brutto \hspace{1cm} \EUR{17,85} \\
+brutto \hspace{1cm} $brutto \\
 \smallskip
 \hrule
 \end{flushright}
