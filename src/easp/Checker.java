@@ -2,6 +2,7 @@ package easp;
 
 import easp.InputException;
 import easp.model.Position;
+import javafx.scene.control.TextField;
 
 public class Checker {
 
@@ -87,9 +88,29 @@ public class Checker {
 			throw (new InputException());
 		}
 	}
-
-	public void checkPosition(Position pos) throws InputException {
-		//TODO
+	
+	public void checkArticle(String article) throws InputException{
+		if (article.equals("")){
+			throw new InputException();
+		}
+	}
+	
+	public void checkAmount(String amount) throws InputException{
+		if (amount.equals("")){
+			throw new InputException();
+		}
+	}
+	
+	public void checkUnit(String unit) throws InputException{
+		if (unit.equals("")){
+			throw new InputException();
+		}
+	}
+	
+	public void checkPPU(String ppu) throws InputException{
+		if (ppu.equals("")){
+			throw new InputException();
+		}
 	}
 
 }

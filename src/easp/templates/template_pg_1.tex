@@ -28,7 +28,6 @@
 
 \begin{figure}[h]
 \begin{minipage}{9cm}
-$company\\
 $firstName $lastName\\
 $adress \bigskip \\
 $city\\
@@ -60,11 +59,9 @@ $city\\
 \begin{tabularx}{\textwidth}{cclp{7cm} R R}
    \textbf{Pos} & \textbf{Menge} & \textbf{ME} & \textbf{Bezeichung} & \textbf{E-Preis-\EUR{}} & \textbf{G-Preis-\EUR{}} \\
    \hline
-    1 & 7 & E & {\textbf{Lorem ipsum dolor sit amet}\newline consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.} & \EUR{7,00} & \EUR{1,00} \\
-    2 & 1 & E & {\textbf{Lorem ipsum dolor sit amet}\newline consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.} & \EUR{2,00} & \EUR{2,00} \\
-    3 & 1 & E & {\textbf{Lorem ipsum dolor sit amet}\newline consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.} & \EUR{2,00} & \EUR{2,00} \\
-    4 & 1 & E & {\textbf{Lorem ipsum dolor sit amet}\newline consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.} & \EUR{2,00} & \EUR{2,00} \\
-    5 & 1 & E & {\textbf{Lorem ipsum dolor sit amet}\newline consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.} & \EUR{2,00} & \EUR{2,00} \\
+   	#foreach( $name in $services )
+  		Position & $name[0] & $name[1] & $name[2] & $name[3] & $name[4] \\
+	#end 
 \end{tabularx}
 
 \vfill

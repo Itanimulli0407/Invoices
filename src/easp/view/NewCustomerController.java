@@ -45,9 +45,7 @@ public class NewCustomerController {
 	private Button cancelButton;
 	@FXML
 	private Button clearButton;
-
-	private TextField[] textFieldArray = new TextField[10];
-
+	
 	private Customer newCustomer = new Customer();
 
 	private Checker checker;
@@ -379,10 +377,6 @@ public class NewCustomerController {
 
 	public Button getClearButton() {
 		return clearButton;
-	}
-
-	public TextField[] getTextFieldArray() {
-		return textFieldArray;
 	}
 
 	public Customer getNewCustomer() {

@@ -38,9 +38,14 @@ public class CustomerOverviewController {
 	private Label faxLabel;
 
 	private GUIMain main;
+	private Customer actCustomer;
 
 	public CustomerOverviewController() {
 
+	}
+	
+	public Customer getActCustomer(){
+		return this.actCustomer;
 	}
 
 	@FXML
@@ -49,7 +54,9 @@ public class CustomerOverviewController {
 		firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().getFirstName());
 		lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().getLastName());
 
-		this.showCustomerDetails(new Customer());
+		Customer customer = new Customer();
+		this.showCustomerDetails(customer);
+		this.actCustomer = customer;
 
 		this.customerTable.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> this.showCustomerDetails(newValue));
@@ -61,6 +68,7 @@ public class CustomerOverviewController {
 	}
 
 	public void showCustomerDetails(Customer c) {
+		this.actCustomer = c;
 		this.nameLabel.setText(c.getFirstName().get() + " " + c.getLastName().get());
 		this.privateLabel.setText(c.getPrivate().get());
 		this.mobileLabel.setText(c.getMobile().get());

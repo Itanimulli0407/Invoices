@@ -3,14 +3,17 @@ package easp;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import de.nixosoft.jlr.JLRConverter;
 import de.nixosoft.jlr.JLRGenerator;
+import easp.model.Customer;
+import easp.model.Position;
 
 public class PDFTester {
 
-	public void testPdf() {
+	public void testPdf(Customer c, ArrayList<Position> positions) {
 		// Set Directories. RELATIVE !!!
 		Properties prop = System.getProperties();
 		System.out.println(prop.getProperty("os.name"));
@@ -25,12 +28,23 @@ public class PDFTester {
 		File invoice = new File(tempDir.getAbsolutePath() + File.separator + "invoice.tex");
 
 		// Fill File
+		ArrayList<ArrayList<String>> services = new ArrayList<ArrayList<String>>();
+		for (int i = 0; i < positions.size(); i++) {
+			ArrayList<String> subservice = new ArrayList<String>();
+			subservice.add(String.valueOf(positions.get(i).getAmount()));
+			subservice.add(positions.get(i).getUnit());
+			subservice.add(positions.get(i).getArticle());
+			subservice.add(String.valueOf(positions.get(i).getPricePerUnit()));
+			subservice.add(String.valueOf(positions.get(i).getPrice()));
+			services.add(subservice);
+		}
+
 		JLRConverter converter = new JLRConverter(dir);
-		converter.replace("company", "Herr");
-		converter.replace("firstName", "Peter");
-		converter.replace("lastName", "Müller");
-		converter.replace("adress", "Müllerstr. 8");
-		converter.replace("city", "66589 Merchweiler");
+		converter.replace("firstName", c.getFirstName().get());
+		converter.replace("lastName", c.getLastName().get());
+		converter.replace("adress", c.getStreet().get());
+		converter.replace("city", String.valueOf(c.getZipCode().get()) + " " + c.getCity().get());
+		converter.replace("services", services);
 
 		try {
 			converter.parse(template, invoice);

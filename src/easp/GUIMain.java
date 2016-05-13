@@ -8,6 +8,8 @@ import easp.view.CustomerOverviewController;
 import easp.view.NewCustomerController;
 import easp.view.NewInvoiceController;
 import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +33,7 @@ public class GUIMain extends Application {
 	// TODO: this has to be private, will be exchanged by storing data in xml or database
 	public ObservableList<Customer> customerData = FXCollections.observableArrayList();
 	private MenuBar menuBar;
+	private CustomerOverviewController overviewCtrl;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -42,6 +45,30 @@ public class GUIMain extends Application {
 		initRootMenuCustomers();
 
 		showCustomerView();
+		
+		/*
+		 * Some test data
+		 */
+		Customer c = new Customer();
+		c.setFirstName(new SimpleStringProperty("Lukas"));
+		c.setLastName(new SimpleStringProperty("Wachter"));
+		c.setStreet(new SimpleStringProperty("zum Rockenhübel 29"));
+		c.setZipCode(new SimpleIntegerProperty(66589));
+		c.setCity(new SimpleStringProperty("Merchweiler"));
+		c.setPrivate(new SimpleStringProperty("06825-406225"));
+		c.setBirthday(new SimpleStringProperty("04.07.1996"));
+		c.setMobile(new SimpleStringProperty("0157-39112800"));
+		customerData.add(c);
+		Customer c2 = new Customer();
+		c2.setFirstName(new SimpleStringProperty("Kristina"));
+		c2.setLastName(new SimpleStringProperty("Bauer"));
+		c2.setStreet(new SimpleStringProperty("Illinger Straße 47"));
+		c2.setZipCode(new SimpleIntegerProperty(66589));
+		c2.setCity(new SimpleStringProperty("Merchweiler"));
+		c2.setPrivate(new SimpleStringProperty("06825-4999610"));
+		c2.setBirthday(new SimpleStringProperty("08.11.1995"));
+		c2.setMail(new SimpleStringProperty("kriba0811@gmail.com"));
+		customerData.add(c2);
 	}
 
 	public GUIMain() {
@@ -137,6 +164,7 @@ public class GUIMain extends Application {
 			// set main
 			CustomerOverviewController controller = loader.getController();
 			controller.setMain(this);
+			this.overviewCtrl = controller;
 
 		} catch (IOException e) {
 			System.err.println("Error while loading customer overview");
@@ -184,6 +212,7 @@ public class GUIMain extends Application {
 			NewInvoiceController controller = loader.getController();
 			controller.setStage(popup);
 			controller.setMain(this);
+			controller.setCustomer(overviewCtrl.getActCustomer());
 			
 			popup.showAndWait();
 		} catch (IOException e) {
