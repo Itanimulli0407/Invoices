@@ -22,6 +22,7 @@ public class Position {
 	// private String articleID;
 
 	private int amount;
+	private String title;
 	private String article;
 	private String unit;
 	private double pricePerUnit;
@@ -29,6 +30,7 @@ public class Position {
 	private NewInvoiceController ctrl;
 	private Checker checker;
 
+	private TextField titleField;
 	private TextField articleField;
 	private TextField amountField;
 	private TextField unitField;
@@ -36,9 +38,10 @@ public class Position {
 	private TextField priceField;
 
 	public Position(NewInvoiceController ctrl) {
+		this.title = "";
 		this.amount = 0;
 		this.article = "";
-		this.unit = "Stück";
+		this.unit = "Stk.";
 		this.pricePerUnit = 0.00;
 		this.price = 0.00;
 		this.ctrl = ctrl;
@@ -48,7 +51,7 @@ public class Position {
 	@Override
 	public String toString() {
 		DecimalFormat f = new DecimalFormat("#0.00");
-		return "Article: " + article + ", Amount: " + String.valueOf(amount) + ", Unit: " + unit + ", Price per Unit: "
+		return "Article: " + title + " -> " + article + ", Amount: " + String.valueOf(amount) + ", Unit: " + unit + ", Price per Unit: "
 				+ String.valueOf(pricePerUnit) + ", Price: " + f.format(price) + "€ //";
 	}
 
@@ -63,6 +66,10 @@ public class Position {
 		box.setPadding(new Insets(10, 20, 10, 20));
 		box.setSpacing(10.0);
 
+		// Title Field
+		titleField = new TextField();
+		titleField.setFont(new Font(14));
+		titleField.setPromptText("Titel (optional)");
 		// Field for Articles
 		articleField = new TextField();
 		articleField.setFont(new Font(14));

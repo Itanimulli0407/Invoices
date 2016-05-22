@@ -59,10 +59,10 @@ public class Checker {
 		if (street.equals("") || zipCity.equals("")) {
 			throw (new InputException());
 		}
-		if (!street.matches("[a-zA-Z_0-9\\-\\söüäß]*")) {
+		if (!street.matches("[a-zA-Z_0-9öüäß\\-\\s]*")) {
 			throw (new InputException());
 		}
-		if (!zipCity.matches("[0-9]*\\s[a-zA-Z\\-]*")) {
+		if (!zipCity.matches("[0-9]*\\s[a-zA-Z_0-9öüäß\\-\\s]*")) {
 			throw (new InputException());
 		}
 	}
@@ -85,6 +85,12 @@ public class Checker {
 	 */
 	public void checkMail(String m) throws InputException {
 		if (!m.matches("[a-z0-9\\.\\-_]*@[a-z0-9\\.\\-_]*") && !m.equals("")) {
+			throw (new InputException());
+		}
+	}
+	
+	public void checkTitle(String title) throws InputException {
+		if (title.length() > 25){
 			throw (new InputException());
 		}
 	}
