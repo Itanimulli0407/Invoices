@@ -27,6 +27,7 @@ public class PDFMaker {
 
 	private void makePDFWindows(Customer c, ArrayList<Position> positions) {
 		// TODO Auto-generated method stub
+		// This is a test from windows
 		
 	}
 
