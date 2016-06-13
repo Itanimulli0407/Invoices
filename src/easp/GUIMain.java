@@ -16,6 +16,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -30,7 +32,8 @@ public class GUIMain extends Application {
 	private Stage primaryStage;
 	private BorderPane root;
 
-	// TODO: this has to be private, will be exchanged by storing data in xml or database
+	// TODO: this has to be private, will be exchanged by storing data in xml or
+	// database
 	public ObservableList<Customer> customerData = FXCollections.observableArrayList();
 	private MenuBar menuBar;
 	private CustomerOverviewController overviewCtrl;
@@ -45,7 +48,7 @@ public class GUIMain extends Application {
 		initRootMenuCustomers();
 
 		showCustomerView();
-		
+
 		/*
 		 * Some test data
 		 */
@@ -72,7 +75,7 @@ public class GUIMain extends Application {
 	}
 
 	public GUIMain() {
-		
+
 	}
 
 	private void initRoot() {
@@ -95,7 +98,7 @@ public class GUIMain extends Application {
 
 	private void initRootMenuCustomers() {
 		// create a menu bar
-		this.menuBar  = new MenuBar();
+		this.menuBar = new MenuBar();
 
 		// create entries for the menu bar
 		Menu menuFile = new Menu("Datei");
@@ -132,8 +135,17 @@ public class GUIMain extends Application {
 		// TODO: setOnAction handling
 		MenuItem invoice = new MenuItem("Rechnung");
 		invoice.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent t){
-				showNewInvoiceView();
+			public void handle(ActionEvent t) {
+				if (GUIMain.this.overviewCtrl.getActCustomer() == null) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Fehler");
+					alert.setHeaderText("Kein Kunde gewählt");
+					alert.setContentText("Bitte wählen sie vor dem Erstellen einer Rechnung einen Kunden aus, "
+							+ "an welchen die Rechnung gestellt werden soll.");
+					alert.showAndWait();
+				} else {
+					showNewInvoiceView();
+				}
 			}
 		});
 		MenuItem offer = new MenuItem("Angebot");
@@ -184,44 +196,44 @@ public class GUIMain extends Application {
 			popup.initOwner(this.primaryStage);
 			Scene popupScene = new Scene(newCustomerView);
 			popup.setScene(popupScene);
-			
+
 			NewCustomerController controller = loader.getController();
 			controller.setStage(popup);
 			controller.setMain(this);
-			
+
 			popup.showAndWait();
 		} catch (IOException e) {
 			System.err.println("Error while loading new customer view");
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void showNewInvoiceView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUIMain.class.getResource("view" + File.separator + "NewInvoiceView.fxml"));
 			AnchorPane newInvoiceView = (AnchorPane) loader.load();
-						
+
 			Stage popup = new Stage();
 			popup.setTitle("Neue Rechnung");
 			popup.initModality(Modality.WINDOW_MODAL);
 			popup.initOwner(this.primaryStage);
 			Scene popupScene = new Scene(newInvoiceView);
 			popup.setScene(popupScene);
-			
+
 			NewInvoiceController controller = loader.getController();
 			controller.setStage(popup);
 			controller.setMain(this);
 			controller.setCustomer(overviewCtrl.getActCustomer());
-			
+
 			popup.showAndWait();
 		} catch (IOException e) {
 			System.err.println("Error while loading new invoice view");
 			e.printStackTrace();
 		}
 	}
-	
-	public void getBackToMenu(){
+
+	public void getBackToMenu() {
 		this.showCustomerView();
 	}
 

@@ -17,7 +17,20 @@ public class PDFMaker {
 	public void makePDF(Customer c, ArrayList<Position> positions) {
 		// Set Directories. RELATIVE !!!
 		Properties prop = System.getProperties();
+		String system = prop.getProperty("os.name");
 		System.out.println(prop.getProperty("os.name"));
+		if (system.contains("Mac"))
+			makePDFMac(c, positions);
+		else
+			makePDFWindows(c, positions);
+	}
+
+	private void makePDFWindows(Customer c, ArrayList<Position> positions) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void makePDFMac(Customer c, ArrayList<Position> positions) {
 		File dir = new File(this.getClass().getResource("").toString().substring(5) + File.separator + "templates");
 		File template = new File(dir.getAbsolutePath() + File.separator + "template_pg_1.tex");
 		File tempDir = new File(dir.getAbsolutePath() + File.separator + "tempDir");
@@ -32,15 +45,19 @@ public class PDFMaker {
 		ArrayList<ArrayList<String>> services = new ArrayList<ArrayList<String>>();
 		DecimalFormat f = new DecimalFormat("#0.00");
 		double sum = 0.00;
-		for (Position pos: positions){
+		for (Position pos : positions) {
 			sum += pos.getPrice();
 		}
 		for (int i = 0; i < positions.size(); i++) {
 			ArrayList<String> subservice = new ArrayList<String>();
-			subservice.add(String.valueOf(i+1));
+			subservice.add(String.valueOf(i + 1));
 			subservice.add(f.format((positions.get(i).getAmount())));
 			subservice.add(positions.get(i).getUnit());
-			subservice.add(positions.get(i).getArticle());
+			if (positions.get(i).getTitle() != "") {
+				subservice.add("\\textbf{\\underline{" + positions.get(i).getTitle() + "}}:\\newline " + positions.get(i).getArticle());
+			} else {
+				subservice.add(positions.get(i).getArticle());
+			}
 			subservice.add(f.format(positions.get(i).getPricePerUnit()) + "€");
 			subservice.add(f.format(positions.get(i).getPrice()) + "€");
 			services.add(subservice);
@@ -53,8 +70,8 @@ public class PDFMaker {
 		converter.replace("city", String.valueOf(c.getZipCode().get()) + " " + c.getCity().get());
 		converter.replace("services", services);
 		converter.replace("netto", f.format(sum));
-		converter.replace("mwst", f.format(sum*0.19));
-		converter.replace("brutto", f.format(sum + sum*0.19));
+		converter.replace("mwst", f.format(sum * 0.19));
+		converter.replace("brutto", f.format(sum + sum * 0.19));
 
 		try {
 			converter.parse(template, invoice);
@@ -109,7 +126,6 @@ public class PDFMaker {
 			System.err.println("temp data directory could not be deleted");
 			e.printStackTrace();
 		}
-
 	}
 
 }

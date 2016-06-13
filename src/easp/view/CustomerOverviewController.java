@@ -56,7 +56,7 @@ public class CustomerOverviewController {
 
 		Customer customer = new Customer();
 		this.showCustomerDetails(customer);
-		this.actCustomer = customer;
+		this.actCustomer = null;
 
 		this.customerTable.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> this.showCustomerDetails(newValue));

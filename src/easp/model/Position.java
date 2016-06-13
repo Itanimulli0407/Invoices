@@ -69,12 +69,12 @@ public class Position {
 		// Title Field
 		titleField = new TextField();
 		titleField.setFont(new Font(14));
-		titleField.setPromptText("Titel (optional)");
+		titleField.setPromptText("Titel (max. 25 Zeichen)");
 		// Field for Articles
 		articleField = new TextField();
 		articleField.setFont(new Font(14));
 		articleField.setPromptText("Artikel");
-		articleField.setPrefWidth(480.0);
+		articleField.setPrefWidth(350.0);
 		articleField.setMaxWidth(1000.00);
 		articleField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
@@ -229,13 +229,20 @@ public class Position {
 			}
 		});
 
-		box.getChildren().addAll(this.articleField, this.amountField, this.unitField, this.pricePerUnitField,
+		box.getChildren().addAll(this.titleField, this.articleField, this.amountField, this.unitField, this.pricePerUnitField,
 				this.priceField, deleteButton);
 		return box;
 	}
 
 	public boolean setInformations() {
 		boolean thrown = false;
+		try {
+			checker.checkTitle(titleField.getText());
+		} catch (InputException e) {
+			titleField.setStyle(
+					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
+			thrown = true;
+		}
 		try {
 			checker.checkArticle(articleField.getText());
 		} catch (InputException e) {
@@ -267,6 +274,7 @@ public class Position {
 		if (thrown)
 			return false;
 		else {
+			this.title = titleField.getText();
 			this.article = articleField.getText();
 			this.amount = Integer.parseInt(amountField.getText());
 			String price = priceField.getText().substring(0, priceField.getText().indexOf("€"));
@@ -287,6 +295,10 @@ public class Position {
 
 	public int getAmount() {
 		return amount;
+	}
+	
+	public String getTitle() {
+		return title;
 	}
 
 	public String getArticle() {
