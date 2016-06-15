@@ -14,6 +14,12 @@ import easp.model.Position;
 
 public class PDFMaker {
 
+	private File dir, tempDir;
+	private File invoice;
+	private File template;
+	private File latexdir;
+	private File desktop;
+
 	public void makePDF(Customer c, ArrayList<Position> positions) {
 		// Set Directories. RELATIVE !!!
 		Properties prop = System.getProperties();
@@ -23,24 +29,6 @@ public class PDFMaker {
 			makePDFMac(c, positions);
 		else
 			makePDFWindows(c, positions);
-	}
-
-	private void makePDFWindows(Customer c, ArrayList<Position> positions) {
-		// TODO Auto-generated method stub
-		// This is a test from windows
-		
-	}
-
-	private void makePDFMac(Customer c, ArrayList<Position> positions) {
-		File dir = new File(this.getClass().getResource("").toString().substring(5) + File.separator + "templates");
-		File template = new File(dir.getAbsolutePath() + File.separator + "template_pg_1.tex");
-		File tempDir = new File(dir.getAbsolutePath() + File.separator + "tempDir");
-		if (!tempDir.isDirectory()) {
-			tempDir.mkdir();
-		}
-		File desktop = new File("/Users/lukas/Desktop/");
-		File latexdir = new File("/Library/TeX/texbin/pdflatex");
-		File invoice = new File(tempDir.getAbsolutePath() + File.separator + "invoice.tex");
 
 		// Fill File
 		ArrayList<ArrayList<String>> services = new ArrayList<ArrayList<String>>();
@@ -55,7 +43,8 @@ public class PDFMaker {
 			subservice.add(f.format((positions.get(i).getAmount())));
 			subservice.add(positions.get(i).getUnit());
 			if (positions.get(i).getTitle() != "") {
-				subservice.add("\\textbf{\\underline{" + positions.get(i).getTitle() + "}}:\\newline " + positions.get(i).getArticle());
+				subservice.add("\\textbf{\\underline{" + positions.get(i).getTitle() + "}}:\\newline "
+						+ positions.get(i).getArticle());
 			} else {
 				subservice.add(positions.get(i).getArticle());
 			}
@@ -64,7 +53,7 @@ public class PDFMaker {
 			services.add(subservice);
 		}
 
-		JLRConverter converter = new JLRConverter(dir);
+		JLRConverter converter = new JLRConverter(this.dir);
 		converter.replace("firstName", c.getFirstName().get());
 		converter.replace("lastName", c.getLastName().get());
 		converter.replace("adress", c.getStreet().get());
@@ -127,6 +116,32 @@ public class PDFMaker {
 			System.err.println("temp data directory could not be deleted");
 			e.printStackTrace();
 		}
+	}
+
+	private void makePDFWindows(Customer c, ArrayList<Position> positions) {
+		this.dir = new File(this.getClass().getResource("").toString().substring(5) + File.separator + "templates");
+		this.template = new File(dir.getAbsolutePath() + File.separator + "template_pg_1.tex");
+		this.tempDir = new File(dir.getAbsolutePath() + File.separator + "tempDir");
+		if (!tempDir.isDirectory()) {
+			tempDir.mkdir();
+		}
+		Properties prop = System.getProperties();
+		String user = prop.getProperty("user.name");
+		this.desktop = new File("C:\\Users\\"+user+"\\Desktop");
+		this.latexdir = new File("C:\\texlive\\2016\\bin\\win32\\pdflatex");
+		this.invoice = new File(tempDir.getAbsolutePath() + File.separator + "invoice.tex");
+	}
+
+	private void makePDFMac(Customer c, ArrayList<Position> positions) {
+		this.dir = new File(this.getClass().getResource("").toString().substring(5) + File.separator + "templates");
+		this.template = new File(dir.getAbsolutePath() + File.separator + "template_pg_1.tex");
+		this.tempDir = new File(dir.getAbsolutePath() + File.separator + "tempDir");
+		if (!tempDir.isDirectory()) {
+			tempDir.mkdir();
+		}
+		this.desktop = new File("/Users/lukas/Desktop/");
+		this.latexdir = new File("/Library/TeX/texbin/pdflatex");
+		this.invoice = new File(tempDir.getAbsolutePath() + File.separator + "invoice.tex");
 	}
 
 }
