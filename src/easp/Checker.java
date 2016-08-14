@@ -1,8 +1,6 @@
 package easp;
 
 import easp.InputException;
-import easp.model.Position;
-import javafx.scene.control.TextField;
 
 public class Checker {
 

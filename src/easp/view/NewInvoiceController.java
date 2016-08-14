@@ -2,11 +2,8 @@ package easp.view;
 
 import java.util.ArrayList;
 
-import easp.Checker;
-
 //import java.util.List;
 
-import easp.GUIMain;
 import easp.PDFMaker;
 import easp.model.Customer;
 import easp.model.Invoice;
@@ -31,7 +28,8 @@ public class NewInvoiceController {
 
 	private ArrayList<Position> positions;
 	private Stage stage;
-	private GUIMain main;
+	// NOT NEEDED YET
+	// private GUIMain main;
 	private Customer customer;
 	private Invoice invoice;
 
@@ -138,14 +136,9 @@ public class NewInvoiceController {
 		this.positions.remove(position);
 	}
 
-	/**
-	 * 
-	 * @param main:
-	 *            References GUIMain
+	/*
+	 * public void setMain(GUIMain main) { this.main = main; }
 	 */
-	public void setMain(GUIMain main) {
-		this.main = main;
-	}
 
 	/**
 	 * 

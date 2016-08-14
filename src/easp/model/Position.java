@@ -18,11 +18,13 @@ import javafx.scene.text.Font;
 
 public class Position {
 
+	private final String ERROR_FORMAT = "-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;";
+
 	// TODO: use this if article store is used
 	// private String articleID;
-	
+
 	// TODO: Vererbende Invoice hinterlegen !!!
-	
+
 	private Invoice parentInvoice;
 
 	private int amount;
@@ -50,15 +52,15 @@ public class Position {
 		this.price = 0.00;
 		this.ctrl = ctrl;
 		this.checker = new Checker();
-		
+
 		this.parentInvoice = inv;
 	}
 
 	@Override
 	public String toString() {
 		DecimalFormat f = new DecimalFormat("#0.00");
-		return "Article: " + title + " -> " + article + ", Amount: " + String.valueOf(amount) + ", Unit: " + unit + ", Price per Unit: "
-				+ String.valueOf(pricePerUnit) + ", Price: " + f.format(price) + "€ //";
+		return "Article: " + title + " -> " + article + ", Amount: " + String.valueOf(amount) + ", Unit: " + unit
+				+ ", Price per Unit: " + String.valueOf(pricePerUnit) + ", Price: " + f.format(price) + "€ //";
 	}
 
 	protected void computePrice() {
@@ -235,8 +237,8 @@ public class Position {
 			}
 		});
 
-		box.getChildren().addAll(this.titleField, this.articleField, this.amountField, this.unitField, this.pricePerUnitField,
-				this.priceField, deleteButton);
+		box.getChildren().addAll(this.titleField, this.articleField, this.amountField, this.unitField,
+				this.pricePerUnitField, this.priceField, deleteButton);
 		return box;
 	}
 
@@ -245,36 +247,31 @@ public class Position {
 		try {
 			checker.checkTitle(titleField.getText());
 		} catch (InputException e) {
-			titleField.setStyle(
-					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
+			titleField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}
 		try {
 			checker.checkArticle(articleField.getText());
 		} catch (InputException e) {
-			articleField.setStyle(
-					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
+			articleField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}
 		try {
 			checker.checkAmount(amountField.getText());
 		} catch (InputException e) {
-			amountField.setStyle(
-					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
+			amountField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}
 		try {
 			checker.checkUnit(unitField.getText());
 		} catch (InputException e) {
-			unitField.setStyle(
-					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
+			unitField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}
 		try {
 			checker.checkPPU(pricePerUnitField.getText());
 		} catch (InputException e) {
-			pricePerUnitField.setStyle(
-					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
+			pricePerUnitField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}
 		if (thrown)
@@ -302,7 +299,7 @@ public class Position {
 	public int getAmount() {
 		return amount;
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -341,6 +338,10 @@ public class Position {
 
 	public TextField getPriceField() {
 		return priceField;
+	}
+	
+	public Invoice getParentInvoice(){
+		return parentInvoice;
 	}
 
 }

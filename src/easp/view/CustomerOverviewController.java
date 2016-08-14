@@ -1,6 +1,5 @@
 package easp.view;
 
-import java.io.File;
 import java.util.Optional;
 
 import easp.GUIMain;
@@ -17,7 +16,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 

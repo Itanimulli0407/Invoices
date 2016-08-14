@@ -8,8 +8,6 @@ import easp.view.CustomerOverviewController;
 import easp.view.NewCustomerController;
 import easp.view.NewInvoiceController;
 import javafx.application.Application;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -205,7 +203,7 @@ public class GUIMain extends Application {
 
 			NewInvoiceController controller = loader.getController();
 			controller.setStage(popup);
-			controller.setMain(this);
+			//controller.setMain(this);
 			controller.setCustomer(overviewCtrl.getActCustomer());
 
 			popup.showAndWait();
