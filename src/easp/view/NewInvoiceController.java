@@ -9,6 +9,7 @@ import easp.Checker;
 import easp.GUIMain;
 import easp.PDFMaker;
 import easp.model.Customer;
+import easp.model.Invoice;
 import easp.model.Position;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,23 +33,53 @@ public class NewInvoiceController {
 	private Stage stage;
 	private GUIMain main;
 	private Customer customer;
+	private Invoice invoice;
 
+	/**
+	 * Empty constructor
+	 */
 	public NewInvoiceController() {
-		
+
 	}
 
+	/**
+	 * 
+	 * @return Returns the created invoice
+	 */
+	public Invoice getInvoice() {
+		if (!this.invoice.equals(null)) {
+			return this.invoice;
+		} else
+			return new Invoice(0, new ArrayList<Position>());
+	}
+
+	/**
+	 * 
+	 * @param stage:
+	 *            The stage where the Overlay will appear
+	 */
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
-	
-	public void setCustomer(Customer customer){
+
+	/**
+	 * 
+	 * @param customer:
+	 *            receiving customer
+	 * 
+	 */
+	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 
+	/**
+	 * Initializes variables, buttons, etc
+	 */
 	@FXML
 	public void initialize() {
 		positions = new ArrayList<Position>();
-		
+		invoice = new Invoice(0, positions);
+
 		// handle cancel Button
 		this.cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -63,16 +94,24 @@ public class NewInvoiceController {
 			public void handle(ActionEvent t) {
 				boolean thrown = false;
 				for (Position pos : positions) {
-						if (!pos.setInformations())
-							thrown = true;
+					if (!pos.setInformations())
+						thrown = true;
 				}
-				if (!thrown){
+				if (!thrown) {
 					for (Position pos : positions) {
 						System.out.println(pos.toString());
 					}
+					NewInvoiceController.this.invoice = new Invoice(customer.getId().get(), positions);
+
+					// TODO: You can do this better
+
 					// Only for testing purposes
 					PDFMaker tester = new PDFMaker();
 					tester.makePDF(customer, positions);
+
+					// IDEA: Use Database entries to create invoice (only on
+					// purpose)
+
 					stage.close();
 				}
 			}
@@ -82,22 +121,36 @@ public class NewInvoiceController {
 		this.addButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				Position pos = new Position(NewInvoiceController.this);
+				Position pos = new Position(NewInvoiceController.this, NewInvoiceController.this.invoice);
 				positions.add(pos);
 				posBox.getChildren().add(pos.getHBox());
 			}
 		});
 
 	}
-	
+
+	/**
+	 * 
+	 * @param position:
+	 *            Removes a given position from invoice
+	 */
 	public void remove(Position position) {
 		this.positions.remove(position);
 	}
 
+	/**
+	 * 
+	 * @param main:
+	 *            References GUIMain
+	 */
 	public void setMain(GUIMain main) {
 		this.main = main;
 	}
 
+	/**
+	 * 
+	 * @return Returns VBox with positions
+	 */
 	public VBox getPosBox() {
 		return this.posBox;
 	}

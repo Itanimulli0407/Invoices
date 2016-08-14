@@ -15,7 +15,7 @@ import easp.model.Position;
 public class PDFMaker {
 
 	private File dir, tempDir;
-	private File invoice;
+	private File invoiceFile;
 	private File template;
 	private File latexdir;
 	private File desktop;
@@ -25,10 +25,10 @@ public class PDFMaker {
 		Properties prop = System.getProperties();
 		String system = prop.getProperty("os.name");
 		System.out.println(prop.getProperty("os.name"));
-		if (system.contains("Mac"))
-			makePDFMac(c, positions);
-		else
+		if (system.contains("Windows"))
 			makePDFWindows(c, positions);
+		else
+			makePDFMac(c, positions);
 
 		// Fill File
 		ArrayList<ArrayList<String>> services = new ArrayList<ArrayList<String>>();
@@ -64,7 +64,7 @@ public class PDFMaker {
 		converter.replace("brutto", f.format(sum + sum * 0.19));
 
 		try {
-			converter.parse(template, invoice);
+			converter.parse(template, invoiceFile);
 		} catch (IOException e) {
 			System.out.println("Tex-File could not be parsed");
 			e.printStackTrace();
@@ -74,7 +74,7 @@ public class PDFMaker {
 
 		JLRGenerator gen = new JLRGenerator();
 		try {
-			gen.generate(latexdir, invoice, tempDir, dir);
+			gen.generate(latexdir, invoiceFile, tempDir, dir);
 		} catch (IOException e) {
 			System.err.println("File could not be generated");
 			e.printStackTrace();
@@ -129,7 +129,7 @@ public class PDFMaker {
 		String user = prop.getProperty("user.name");
 		this.desktop = new File("C:\\Users\\"+user+"\\Desktop");
 		this.latexdir = new File("C:\\texlive\\2016\\bin\\win32\\pdflatex");
-		this.invoice = new File(tempDir.getAbsolutePath() + File.separator + "invoice.tex");
+		this.invoiceFile = new File(tempDir.getAbsolutePath() + File.separator + "invoice.tex");
 	}
 
 	private void makePDFMac(Customer c, ArrayList<Position> positions) {
@@ -141,7 +141,7 @@ public class PDFMaker {
 		}
 		this.desktop = new File("/Users/lukas/Desktop/");
 		this.latexdir = new File("/Library/TeX/texbin/pdflatex");
-		this.invoice = new File(tempDir.getAbsolutePath() + File.separator + "invoice.tex");
+		this.invoiceFile = new File(tempDir.getAbsolutePath() + File.separator + "invoice.tex");
 	}
 
 }

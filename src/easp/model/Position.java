@@ -20,6 +20,10 @@ public class Position {
 
 	// TODO: use this if article store is used
 	// private String articleID;
+	
+	// TODO: Vererbende Invoice hinterlegen !!!
+	
+	private Invoice parentInvoice;
 
 	private int amount;
 	private String title;
@@ -37,7 +41,7 @@ public class Position {
 	private TextField pricePerUnitField;
 	private TextField priceField;
 
-	public Position(NewInvoiceController ctrl) {
+	public Position(NewInvoiceController ctrl, Invoice inv) {
 		this.title = "";
 		this.amount = 0;
 		this.article = "";
@@ -46,6 +50,8 @@ public class Position {
 		this.price = 0.00;
 		this.ctrl = ctrl;
 		this.checker = new Checker();
+		
+		this.parentInvoice = inv;
 	}
 
 	@Override
