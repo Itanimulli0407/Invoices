@@ -2,6 +2,9 @@ package easp;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 import easp.model.Customer;
 import easp.view.CustomerOverviewController;
@@ -51,9 +54,16 @@ public class GUIMain extends Application {
 		connector = new DBConnector();
 		connector.setOverviewController(overviewCtrl);
 		connector.connect();
-
+		
+		Map<Integer, Customer> customers = connector.retrieveCustomerInformations();
+		for (int i = 1; i<=customers.size(); i++){
+			customerData.add(customers.get(i));
+		}
 	}
 
+	/*
+	 * Empty Constructor
+	 */
 	public GUIMain() {
 
 	}

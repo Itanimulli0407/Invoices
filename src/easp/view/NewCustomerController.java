@@ -99,7 +99,7 @@ public class NewCustomerController {
 			public void handle(ActionEvent t) {
 				if (checkInput()) {
 					setInformationsToCustomer();
-					// TODO: this has to be stored in xml file
+					// TODO: this has to be stored in database
 					main.customerData.add(newCustomer);
 					stage.close();
 				}
@@ -206,6 +206,7 @@ public class NewCustomerController {
 
 		newCustomer.setFirstName(new SimpleStringProperty(firstName));
 		newCustomer.setLastName(new SimpleStringProperty(name));
+		
 		if (zipCity.length() != 0) {
 			String[] zipCityParts = zipCity.split(" ", 2);
 			if (zipCityParts[0].length() != 0) {
@@ -225,7 +226,12 @@ public class NewCustomerController {
 		}
 		newCustomer.setStreet(new SimpleStringProperty(street));
 		newCustomer.setMail(new SimpleStringProperty(mail));
+		
+		// Format birthday
+		String[] dmy = birthday.split(".");
+		birthday = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
 		newCustomer.setBirthday(new SimpleStringProperty(birthday));
+		
 		newCustomer.setPrivate(new SimpleStringProperty(phone));
 		newCustomer.setMobile(new SimpleStringProperty(mobile));
 		newCustomer.setWork(new SimpleStringProperty(work));

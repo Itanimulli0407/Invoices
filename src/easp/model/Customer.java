@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 public class Customer {
 
 	private StringProperty firstName, lastName;
-	private StringProperty birthday; // Format: dd.mm.yyyy
+	private StringProperty birthday; // Format: yyyy.MM.dd
 	private StringProperty street;
 	private IntegerProperty zipCode;
 	private StringProperty city;
@@ -17,8 +17,7 @@ public class Customer {
 	private StringProperty mobile;
 	private StringProperty work;
 	private StringProperty fax;
-	private IntegerProperty id = new SimpleIntegerProperty(0); // Continous (->
-																// Preferences)
+	private IntegerProperty id;
 
 	/**
 	 * Creates a new customer with only default values set.
@@ -35,6 +34,7 @@ public class Customer {
 		this.mobile = new SimpleStringProperty("");
 		this.work = new SimpleStringProperty("");
 		this.fax = new SimpleStringProperty("");
+		this.id = new SimpleIntegerProperty(0);
 
 		// TODO: Continous customer ids
 	}
