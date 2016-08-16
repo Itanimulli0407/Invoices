@@ -28,7 +28,7 @@ public class DBConnector {
 
 	private final String getCustomerInformations = "SELECT * FROM kunden LEFT JOIN nummern ON kunden.id = nummern.kunde";
 	private final String insertCustomer = "INSERT INTO kunden (nachname, vorname, geburtsdatum, strasse, plz, ort, email) VALUES (?,?,?,?,?,?,?)";
-	private final String deleteCustomer = "DELETE CASCADE FROM kunden WHERE id = ?";
+	private final String deleteCustomer = "DELETE FROM kunden WHERE id = ?";
 
 	Connection conn;
 	String username, password;

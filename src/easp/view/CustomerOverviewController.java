@@ -1,23 +1,12 @@
 package easp.view;
 
-import java.util.Optional;
 
 import easp.GUIMain;
 import easp.model.Customer;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
 
 public class CustomerOverviewController {
 
@@ -70,8 +59,8 @@ public class CustomerOverviewController {
 		this.showCustomerDetails(customer);
 		this.actCustomer = null;
 
-		this.customerTable.getSelectionModel().selectedItemProperty()
-				.addListener((observable, oldValue, newValue) -> this.showCustomerDetails(newValue));
+			this.customerTable.getSelectionModel().selectedItemProperty()
+					.addListener((observable, oldValue, newValue) -> this.showCustomerDetails(newValue));
 	}
 
 	public void setMain(GUIMain main) {
@@ -81,18 +70,30 @@ public class CustomerOverviewController {
 
 	public void showCustomerDetails(Customer c) {
 		this.actCustomer = c;
-		this.nameLabel.setText(c.getFirstName().get() + " " + c.getLastName().get());
-		this.privateLabel.setText(c.getPrivate().get());
-		this.mobileLabel.setText(c.getMobile().get());
-		this.workLabel.setText(c.getWork().get());
-		this.faxLabel.setText(c.getFax().get());
-		this.birthdayLabel.setText(c.getBirthday().get());
-		this.mailLabel.setText(c.getMail().get());
-		this.streetLabel.setText(c.getStreet().get());
-		if (c.getZipCode().get() == 0) {
-			this.zipCityLabel.setText(c.getCity().get());
+		if (c != null) {
+			this.nameLabel.setText(c.getFirstName().get() + " " + c.getLastName().get());
+			this.privateLabel.setText(c.getPrivate().get());
+			this.mobileLabel.setText(c.getMobile().get());
+			this.workLabel.setText(c.getWork().get());
+			this.faxLabel.setText(c.getFax().get());
+			this.birthdayLabel.setText(c.getBirthday().get());
+			this.mailLabel.setText(c.getMail().get());
+			this.streetLabel.setText(c.getStreet().get());
+			if (c.getZipCode().get() == 0) {
+				this.zipCityLabel.setText(c.getCity().get());
+			} else {
+				this.zipCityLabel.setText(String.valueOf(c.getZipCode().get()) + " " + c.getCity().get());
+			}
 		} else {
-			this.zipCityLabel.setText(String.valueOf(c.getZipCode().get()) + " " + c.getCity().get());
+			this.nameLabel.setText("");
+			this.privateLabel.setText("");
+			this.mobileLabel.setText("");
+			this.workLabel.setText("");
+			this.faxLabel.setText("");
+			this.birthdayLabel.setText("");
+			this.streetLabel.setText("");
+			this.zipCityLabel.setText("");
+			this.mailLabel.setText("");
 		}
 	}
 
