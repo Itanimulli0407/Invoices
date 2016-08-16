@@ -1,24 +1,34 @@
 package easp;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
 import easp.model.Customer;
 import easp.view.CustomerOverviewController;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
 public class DBConnector {
 
-	private final String getCustomerInformations = "SELECT * FROM kunden JOIN nummern ON kunden.id = nummern.kunde;";
+	private final String getCustomerInformations = "SELECT * FROM kunden LEFT JOIN nummern ON kunden.id = nummern.kunde";
+	private final String insertCustomer = "INSERT INTO kunden (nachname, vorname, geburtsdatum, strasse, plz, ort, email) VALUES (?,?,?,?,?,?,?)";
+	private final String deleteCustomer = "DELETE CASCADE FROM kunden WHERE id = ?";
 
 	Connection conn;
 	String username, password;
@@ -40,9 +50,9 @@ public class DBConnector {
 
 			// Login
 			Optional<Pair<String, String>> login;
-			login = ctrl.getLogin();
+			login = getLogin();
 			while (!login.isPresent()) {
-				login = ctrl.getLogin();
+				login = getLogin();
 			}
 			username = login.get().getKey();
 			password = login.get().getValue();
@@ -59,6 +69,67 @@ public class DBConnector {
 			System.err.println("Error: " + e);
 			e.printStackTrace();
 		}
+	}
+
+	private Optional<Pair<String, String>> getLogin() {
+		Dialog<Pair<String, String>> dialog = new Dialog<>();
+
+		// Set appearence of dialog
+		dialog.setHeaderText("Bitte geben sie ihren Benutzernamen und ihr Passwort ein.");
+		dialog.setTitle("Login");
+		/*
+		 * dialog.setGraphic(new ImageView(
+		 * this.getClass().getResource(File.separator + "icons" + File.separator
+		 * + "login.png").toString()));
+		 */
+
+		ButtonType loginButtonType = new ButtonType("Login", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+		// Create the username and password labels and fields.
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		TextField username = new TextField();
+		username.setPromptText("Username");
+		PasswordField password = new PasswordField();
+		password.setPromptText("Password");
+
+		grid.add(new Label("Username:"), 0, 0);
+		grid.add(username, 1, 0);
+		grid.add(new Label("Password:"), 0, 1);
+		grid.add(password, 1, 1);
+
+		// Enable/Disable login button depending on whether a username was
+		// entered.
+		Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+		loginButton.setDisable(true);
+
+		// Do some validation (using the Java 8 lambda syntax).
+		username.textProperty().addListener((observable, oldValue, newValue) -> {
+			loginButton.setDisable(newValue.trim().isEmpty());
+		});
+
+		dialog.getDialogPane().setContent(grid);
+
+		// Request focus on the username field by default.
+		Platform.runLater(() -> username.requestFocus());
+
+		// Convert the result to a username-password-pair when the login button
+		// is clicked.
+		dialog.setResultConverter(dialogButton -> {
+			if (dialogButton == loginButtonType) {
+				return new Pair<>(username.getText(), password.getText());
+			}
+			return null;
+		});
+
+		Optional<Pair<String, String>> dates = dialog.showAndWait();
+
+		return dates;
+
 	}
 
 	public void closeConnection() {
@@ -84,6 +155,7 @@ public class DBConnector {
 				stmt.close();
 			} catch (Exception e) {
 				System.err.println("Error: " + e);
+				e.printStackTrace();
 			}
 		}
 		return customers;
@@ -95,8 +167,6 @@ public class DBConnector {
 		while (r.next()) {
 			Customer c = new Customer();
 
-			String street = "";
-			int hnr = 0;
 			IntegerProperty id = new SimpleIntegerProperty(0);
 
 			// Set id of new customer to determine if present in list or not
@@ -123,30 +193,33 @@ public class DBConnector {
 				StringProperty city = new SimpleStringProperty(r.getString("ort"));
 				c.setCity(city);
 
-				hnr = r.getInt("hausnr");
-				street = r.getString("strasse");
-				c.setStreet(new SimpleStringProperty(street + Integer.toString(hnr)));
-				
+				StringProperty street = new SimpleStringProperty(r.getString("strasse"));
+				c.setStreet(street);
+
 				StringProperty mail = new SimpleStringProperty(r.getString("email"));
 				c.setMail(mail);
 
 				StringProperty number = new SimpleStringProperty(r.getString("nummer"));
 				// Get kind of number
-				switch (r.getString("art")) {
-				case "Mobil":
-					c.setMobile(number);
-					break;
-				case "Privat":
-					c.setPrivate(number);
-					break;
-				case "Geschäftlich":
-					c.setWork(number);
-					break;
-				case "Fax":
-					c.setFax(number);
-					break;
-				default:
-					break;
+				try {
+					switch (r.getString("art")) {
+					case "Mobil":
+						c.setMobile(number);
+						break;
+					case "Privat":
+						c.setPrivate(number);
+						break;
+					case "Geschäftlich":
+						c.setWork(number);
+						break;
+					case "Fax":
+						c.setFax(number);
+						break;
+					default:
+						break;
+					}
+				} catch (NullPointerException e) {
+
 				}
 
 				customers.put(id.get(), c);
@@ -174,6 +247,55 @@ public class DBConnector {
 		}
 
 		return customers;
+	}
+
+	/*
+	 * (nachname, vorname, geburtsdatum, strasse, plz, ort, email)
+	 */
+
+	public void insertNewCustomer(Customer c) {
+		if (conn != null) {
+			try {
+				PreparedStatement stmt = conn.prepareStatement(insertCustomer);
+
+				// Set missing informations to prepared statement
+				stmt.setString(1, c.getLastName().get());
+				stmt.setString(2, c.getFirstName().get());
+				stmt.setDate(3, Date.valueOf(c.getBirthday().get()));
+				stmt.setString(4, c.getStreet().get());
+				stmt.setInt(5, c.getZipCode().get());
+				stmt.setString(6, c.getCity().get());
+				stmt.setString(7, c.getMail().get());
+
+				// Execute statement
+				stmt.execute();
+
+				// Close everything
+				stmt.close();
+			} catch (Exception e) {
+				System.err.println("Fehler: " + e);
+			}
+		}
+	}
+
+	public void deleteCustomer(Customer c) {
+		if (conn != null) {
+			try {
+				PreparedStatement stmt = conn.prepareStatement(deleteCustomer);
+
+				// Set id (= Primary Key) which will be deleted from database
+				stmt.setInt(1, c.getId().get());
+
+				// Execute Query
+				stmt.execute();
+			} catch (Exception e) {
+				System.err.println("Fehler: " + e);
+			}
+		}
+	}
+
+	public void updateCustomer(int customerId, String toChange, Object newValue) {
+
 	}
 
 	public void setOverviewController(CustomerOverviewController ctrl) {

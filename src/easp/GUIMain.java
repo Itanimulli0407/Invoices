@@ -2,9 +2,7 @@ package easp;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import easp.model.Customer;
 import easp.view.CustomerOverviewController;
@@ -48,17 +46,12 @@ public class GUIMain extends Application {
 		initRoot();
 
 		initRootMenuCustomers();
-		
-		showCustomerView();
-		
+
 		connector = new DBConnector();
-		connector.setOverviewController(overviewCtrl);
 		connector.connect();
-		
-		Map<Integer, Customer> customers = connector.retrieveCustomerInformations();
-		for (int i = 1; i<=customers.size(); i++){
-			customerData.add(customers.get(i));
-		}
+		updateCustomers();
+
+		showCustomerView();
 	}
 
 	/*
@@ -117,8 +110,19 @@ public class GUIMain extends Application {
 				showNewCustomerView();
 			}
 		});
+
+		// TODO: Implement this
 		MenuItem edit = new MenuItem("Kundendaten bearbeiten");
+
 		MenuItem delete = new MenuItem("Kundendaten löschen");
+		delete.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				if (overviewCtrl.getActCustomer() != null) {
+					deleteCustomer(overviewCtrl.getActCustomer());
+				}
+			}
+		});
+
 		menuEdit.getItems().addAll(newCustomer, edit, delete);
 
 		// create entries for menuCreate
@@ -138,8 +142,13 @@ public class GUIMain extends Application {
 				}
 			}
 		});
+
+		// TODO: Implement this
 		MenuItem offer = new MenuItem("Angebot");
+
+		// TODO: Implement this
 		MenuItem reminder = new MenuItem("Zahlungserinnerung");
+
 		menuCreate.getItems().addAll(invoice, offer, reminder);
 
 		// create entries for menuHelp
@@ -213,7 +222,7 @@ public class GUIMain extends Application {
 
 			NewInvoiceController controller = loader.getController();
 			controller.setStage(popup);
-			//controller.setMain(this);
+			// controller.setMain(this);
 			controller.setCustomer(overviewCtrl.getActCustomer());
 
 			popup.showAndWait();
@@ -238,28 +247,44 @@ public class GUIMain extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
+	public void insertNewCustomer(Customer c) {
+		connector.insertNewCustomer(c);
+		updateCustomers();
+	}
+
+	public void deleteCustomer(Customer c) {
+		connector.deleteCustomer(c);
+		updateCustomers();
+	}
+
+	private void updateCustomers() {
+		this.customerData.clear();
+		Map<Integer, Customer> customers = connector.retrieveCustomerInformations();
+		System.out.println("Hi");
+		for (int k : customers.keySet()){
+			customerData.add(customers.get(k));
+		}
+	}
 }
 
 /*
  * Some test data
  *
-Customer c = new Customer();
-c.setFirstName(new SimpleStringProperty("Lukas"));
-c.setLastName(new SimpleStringProperty("Wachter"));
-c.setStreet(new SimpleStringProperty("zum Rockenhübel 29"));
-c.setZipCode(new SimpleIntegerProperty(66589));
-c.setCity(new SimpleStringProperty("Merchweiler"));
-c.setPrivate(new SimpleStringProperty("06825-406225"));
-c.setBirthday(new SimpleStringProperty("04.07.1996"));
-c.setMobile(new SimpleStringProperty("0157-39112800"));
-customerData.add(c);
-Customer c2 = new Customer();
-c2.setFirstName(new SimpleStringProperty("Kristina"));
-c2.setLastName(new SimpleStringProperty("Bauer"));
-c2.setStreet(new SimpleStringProperty("Illinger Straße 47"));
-c2.setZipCode(new SimpleIntegerProperty(66589));
-c2.setCity(new SimpleStringProperty("Merchweiler"));
-c2.setPrivate(new SimpleStringProperty("06825-4999610"));
-c2.setBirthday(new SimpleStringProperty("08.11.1995"));
-c2.setMail(new SimpleStringProperty("kriba0811@gmail.com"));
-customerData.add(c2);*/
+ * Customer c = new Customer(); c.setFirstName(new
+ * SimpleStringProperty("Lukas")); c.setLastName(new
+ * SimpleStringProperty("Wachter")); c.setStreet(new SimpleStringProperty(
+ * "zum Rockenhübel 29")); c.setZipCode(new SimpleIntegerProperty(66589));
+ * c.setCity(new SimpleStringProperty("Merchweiler")); c.setPrivate(new
+ * SimpleStringProperty("06825-406225")); c.setBirthday(new
+ * SimpleStringProperty("04.07.1996")); c.setMobile(new
+ * SimpleStringProperty("0157-39112800")); customerData.add(c); Customer c2 =
+ * new Customer(); c2.setFirstName(new SimpleStringProperty("Kristina"));
+ * c2.setLastName(new SimpleStringProperty("Bauer")); c2.setStreet(new
+ * SimpleStringProperty("Illinger Straße 47")); c2.setZipCode(new
+ * SimpleIntegerProperty(66589)); c2.setCity(new
+ * SimpleStringProperty("Merchweiler")); c2.setPrivate(new
+ * SimpleStringProperty("06825-4999610")); c2.setBirthday(new
+ * SimpleStringProperty("08.11.1995")); c2.setMail(new
+ * SimpleStringProperty("kriba0811@gmail.com")); customerData.add(c2);
+ */

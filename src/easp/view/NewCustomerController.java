@@ -100,7 +100,7 @@ public class NewCustomerController {
 				if (checkInput()) {
 					setInformationsToCustomer();
 					// TODO: this has to be stored in database
-					main.customerData.add(newCustomer);
+					main.insertNewCustomer(newCustomer);
 					stage.close();
 				}
 			}
@@ -228,7 +228,7 @@ public class NewCustomerController {
 		newCustomer.setMail(new SimpleStringProperty(mail));
 		
 		// Format birthday
-		String[] dmy = birthday.split(".");
+		String[] dmy = birthday.split("\\.");
 		birthday = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
 		newCustomer.setBirthday(new SimpleStringProperty(birthday));
 		
