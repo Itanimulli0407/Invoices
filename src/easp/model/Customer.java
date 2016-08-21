@@ -1,9 +1,13 @@
 package easp.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.util.Pair;
 
 public class Customer {
 
@@ -138,6 +142,24 @@ public class Customer {
 	
 	public void setWork(StringProperty work){
 		this.work = work;
+	}
+
+	// TODO
+	public Map<String, String> getNumbers() {
+		Map<String, String> map = new HashMap<>();
+		if (this.getPrivate().get() != ""){
+			map.put("Privat", this.getPrivate().get());
+		}
+		if (this.getPrivate().get() != ""){
+			map.put("Privat", this.getPrivate().get());
+		}
+		if (this.getPrivate().get() != ""){
+			map.put("Privat", this.getPrivate().get());
+		}
+		if (this.getPrivate().get() != ""){
+			map.put("Privat", this.getPrivate().get());
+		}
+		return map;
 	}
 
 }

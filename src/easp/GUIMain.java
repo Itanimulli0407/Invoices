@@ -31,9 +31,7 @@ public class GUIMain extends Application {
 	private Stage primaryStage;
 	private BorderPane root;
 
-	// TODO: this has to be private, will be exchanged by storing data in xml or
-	// database
-	public ObservableList<Customer> customerData = FXCollections.observableArrayList();
+	private ObservableList<Customer> customerData = FXCollections.observableArrayList();
 	private MenuBar menuBar;
 	private CustomerOverviewController overviewCtrl;
 	private DBConnector connector;
@@ -91,7 +89,7 @@ public class GUIMain extends Application {
 
 		// create entries for menuFile
 		// TODO: setOnAction handling
-		MenuItem save = new MenuItem("Kundendatei Speichern");
+		MenuItem save = new MenuItem("Kundendatei in Datei speichern");
 		MenuItem saveas = new MenuItem("Kundendatei Speichern unter...");
 		MenuItem load = new MenuItem("Kundendatei Laden...");
 		MenuItem exit = new MenuItem("Beenden");
@@ -255,6 +253,11 @@ public class GUIMain extends Application {
 
 	public void deleteCustomer(Customer c) {
 		connector.deleteCustomer(c);
+		updateCustomers();
+	}
+	
+	public void editCustomer(Customer c, String column, Object newValue){
+		connector.editCustomer(c, column, newValue);
 		updateCustomers();
 	}
 
