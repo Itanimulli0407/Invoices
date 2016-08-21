@@ -47,6 +47,7 @@ public class GUIMain extends Application {
 
 		connector = new DBConnector();
 		connector.connect();
+		connector.testConnection();
 		updateCustomers();
 
 		showCustomerView();

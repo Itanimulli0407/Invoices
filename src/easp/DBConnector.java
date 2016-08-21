@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.postgresql.util.PSQLException;
+
 import easp.model.Customer;
 import easp.view.CustomerOverviewController;
 import javafx.application.Platform;
@@ -16,6 +18,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -23,12 +26,25 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
 public class DBConnector {
 
+	private final String createDatabase = "CREATE DATABASE \"EASP\" ENCODING = 'UTF8' TABLESPACE = pg_default LC_COLLATE = 'de_DE.UTF-8' LC_CTYPE = 'de_DE.UTF-8' CONNECTION LIMIT = -1;";
+	private final String createTableCustomers = "CREATE TABLE kunden ("
+			+ "id BIGSERIAL PRIMARY KEY,"
+			+ "nachname character varying(50) NOT NULL," + "vorname character varying(50)," + "geburtsdatum date,"
+			+ "strasse character varying(100)," + "plz numeric(5,0)," + "ort character varying(100),"
+			+ "email character varying(100) )";
+	private final String createTableNummern = "CREATE TABLE nummern ("
+			+ "nummer character varying(50) PRIMARY KEY,"
+			+ "art character varying(30),"
+			+ "kunde BIGSERIAL,"
+			+ "FOREIGN KEY (kunde) REFERENCES kunden(id)"
+			+ "ON DELETE CASCADE );";
 	private final String getCustomerInformations = "SELECT * FROM kunden LEFT JOIN nummern ON kunden.id = nummern.kunde";
 	private final String insertCustomer = "INSERT INTO kunden (nachname, vorname, geburtsdatum, strasse, plz, ort, email) VALUES (?,?,?,?,?,?,?)";
 	private final String deleteCustomer = "DELETE FROM kunden WHERE id = ?";
@@ -66,13 +82,114 @@ public class DBConnector {
 			connProps.put("password", password);
 
 			// Start connection
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost/EASP", connProps);
-			System.out.println("Connection to database EASP established");
+			try {
+				conn = DriverManager.getConnection("jdbc:postgresql://localhost/EASP", connProps);
+				System.out.println("Connection to database EASP established");
+			} catch (PSQLException e) {
+				boolean newDB = askForNewDB();
+				if (newDB) {
+					try {
+						createNewDB();
+						DriverManager.getConnection("jdbc:postgresql://localhost/EASP", connProps);
+						System.out.println("Connection to database EASP established");
+					} catch (Exception e2) {
+						// If this is shown something really wrong happened
+						System.err.println("Fatal Error");
+						showFatalError();
+					}
+				} else {
+					System.exit(1);
+				}
+			}
 
 		} catch (Exception e) {
 			System.err.println("Error: " + e);
 			e.printStackTrace();
 		}
+	}
+
+	public void testConnection() {
+		System.out.println("Testing connection");
+		testCustomers();
+		testNumbers();
+	}
+
+	private void testCustomers() {
+		if (conn != null) {
+			try {
+				Statement stmt = conn.createStatement();
+				stmt.executeQuery("SELECT * FROM Kunden");
+				stmt.close();
+			} catch (PSQLException e) {
+				try {
+					Statement createTable;
+					createTable = conn.createStatement();
+					createTable.execute(createTableCustomers);
+					createTable.close();
+					System.out.println("Created new table \"Kunden\"");
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("Customer Table OK");
+		}
+	}
+
+	private void testNumbers() {
+		if (conn != null) {
+			try {
+				Statement stmt = conn.createStatement();
+				stmt.executeQuery("SELECT * FROM nummern");
+				stmt.close();
+			} catch (PSQLException e) {
+				try {
+					Statement createTable;
+					createTable = conn.createStatement();
+					createTable.execute(createTableNummern);
+					createTable.close();
+					System.out.println("Created new table \"Nummern\"");
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("Numbers Table OK");
+		}
+	}
+
+	private void createNewDB() throws Exception {
+		conn = DriverManager.getConnection("jdbc:postgresql://localhost/", connProps);
+		System.out.println("Creating new Database");
+		Statement stmt = conn.createStatement();
+		stmt.executeUpdate(createDatabase);
+		System.out.println("Database created");
+		stmt.close();
+	}
+
+	private boolean askForNewDB() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Datenbank existiert nicht");
+		alert.setHeaderText("Eine neue Datenbank muss erstellt werden");
+		alert.setContentText("Möchten sie eine neue Datenbank erstellen?");
+		boolean r;
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			r = true;
+		} else {
+			r = false;
+		}
+		return r;
+	}
+
+	private void showFatalError() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Fataler Fehler");
+		alert.setContentText("Das Programm muss aufgrund eines fatalen Fehlers geschlossen werden");
+		alert.showAndWait();
+		System.exit(1);
 	}
 
 	private Optional<Pair<String, String>> getLogin() {
@@ -83,12 +200,13 @@ public class DBConnector {
 		dialog.setTitle("Login");
 
 		ClassLoader loader = DBConnector.class.getClassLoader();
-		String filepath = loader.getResource("").toString() + "view" + File.separator + "icons" + File.separator + "login.png";
+		String filepath = loader.getResource("").toString() + "view" + File.separator + "icons" + File.separator
+				+ "login.png";
 		ImageView imgv = new ImageView();
 		Image img = new Image(filepath);
 		imgv.setImage(img);
 		dialog.setGraphic(imgv);
-		
+
 		ButtonType loginButtonType = new ButtonType("Login", ButtonData.OK_DONE);
 		dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
@@ -191,7 +309,14 @@ public class DBConnector {
 				// Format birthday to match "dd.mm.yyyy"
 				String birthday = r.getString("geburtsdatum");
 				String[] ymd = birthday.split("-");
-				c.setBirthday(new SimpleStringProperty(ymd[2] + "." + ymd[1] + "." + ymd[0]));
+				for (int i = 0; i<ymd.length; i++){
+					System.out.println(ymd[i]);
+				}
+				if (!ymd[0].contains("1901")){
+					c.setBirthday(new SimpleStringProperty(ymd[2] + "." + ymd[1] + "." + ymd[0]));
+				} else {
+					c.setBirthday(new SimpleStringProperty(""));
+				}
 
 				IntegerProperty zip = new SimpleIntegerProperty(r.getInt("plz"));
 				c.setZipCode(zip);
@@ -267,7 +392,11 @@ public class DBConnector {
 				// Set missing informations to prepared statement
 				stmt.setString(1, c.getLastName().get());
 				stmt.setString(2, c.getFirstName().get());
-				stmt.setDate(3, Date.valueOf(c.getBirthday().get()));
+				if (c.getBirthday().get() != ""){
+					stmt.setDate(3, Date.valueOf(c.getBirthday().get()));
+				} else {
+					stmt.setDate(3, Date.valueOf("1901-01-01"));
+				}
 				stmt.setString(4, c.getStreet().get());
 				stmt.setInt(5, c.getZipCode().get());
 				stmt.setString(6, c.getCity().get());
@@ -280,6 +409,7 @@ public class DBConnector {
 				stmt.close();
 			} catch (Exception e) {
 				System.err.println("Fehler: " + e);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -316,12 +446,12 @@ public class DBConnector {
 			}
 		}
 	}
-	
+
 	// TODO
-	public void insertNewNumbers(Customer c){
-		if (conn != null){
+	public void insertNewNumbers(Customer c) {
+		if (conn != null) {
 			Map<String, String> numbers = c.getNumbers();
-			if (numbers.containsKey("Privat")){
+			if (numbers.containsKey("Privat")) {
 				Statement stmt = prepareNumberStatement("Privat", numbers.get("Privat"));
 			}
 		}

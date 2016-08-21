@@ -228,9 +228,15 @@ public class NewCustomerController {
 		newCustomer.setMail(new SimpleStringProperty(mail));
 		
 		// Format birthday
-		String[] dmy = birthday.split("\\.");
-		birthday = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
-		newCustomer.setBirthday(new SimpleStringProperty(birthday));
+		System.out.println("Birthday:" + birthday + "Ende");
+		if (birthday.length() > 1){
+			String[] dmy = birthday.split("\\.");
+			birthday = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
+			newCustomer.setBirthday(new SimpleStringProperty(birthday));
+		} else {
+			newCustomer.setBirthday(new SimpleStringProperty(""));
+		}
+
 		
 		newCustomer.setPrivate(new SimpleStringProperty(phone));
 		newCustomer.setMobile(new SimpleStringProperty(mobile));
