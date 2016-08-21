@@ -7,7 +7,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.util.Pair;
 
 public class Customer {
 
@@ -45,7 +44,29 @@ public class Customer {
 
 	public String toString() {
 		return (firstName.toString() + "\n" + lastName.toString() + "\n" + birthday.toString() + "\n" + mail.toString()
-				+ "\n" + street.toString() + "\n" + zipCode.toString() + "\n" + city.toString() + "\n" + privatePhone.toString());
+				+ "\n" + street.toString() + "\n" + zipCode.toString() + "\n" + city.toString() + "\n"
+				+ privatePhone.toString());
+	}
+
+	/**
+	 * 
+	 * @return A Map with all numbers and their kinds
+	 */
+	public Map<String, String> getNumbers() {
+		Map<String, String> map = new HashMap<>();
+		if (!this.getPrivate().get().trim().equals("")) {
+			map.put("Privat", this.getPrivate().get());
+		}
+		if (!this.getMobile().get().trim().equals("")) {
+			map.put("Mobil", this.getMobile().get());
+		}
+		if (!this.getWork().get().trim().equals("")) {
+			map.put("Geschaeftlich", this.getWork().get());
+		}
+		if (!this.getFax().get().trim().equals("")) {
+			map.put("Fax", this.getFax().get());
+		}
+		return map;
 	}
 
 	public StringProperty getFirstName() {
@@ -79,21 +100,21 @@ public class Customer {
 	public IntegerProperty getId() {
 		return id;
 	}
-	
-	public StringProperty getPrivate(){
-		return  privatePhone;
+
+	public StringProperty getPrivate() {
+		return privatePhone;
 	}
-	
-	public StringProperty getMobile(){
-		return  mobile;
+
+	public StringProperty getMobile() {
+		return mobile;
 	}
-	
-	public StringProperty getWork(){
-		return  work;
+
+	public StringProperty getWork() {
+		return work;
 	}
-	
-	public StringProperty getFax(){
-		return  fax;
+
+	public StringProperty getFax() {
+		return fax;
 	}
 
 	public void setFirstName(StringProperty firstName) {
@@ -127,39 +148,21 @@ public class Customer {
 	public void setId(IntegerProperty id) {
 		this.id = id;
 	}
-	
-	public void setPrivate(StringProperty phone){
+
+	public void setPrivate(StringProperty phone) {
 		this.privatePhone = phone;
 	}
-	
-	public void setMobile(StringProperty mobile){
+
+	public void setMobile(StringProperty mobile) {
 		this.mobile = mobile;
 	}
-	
-	public void setFax(StringProperty fax){
+
+	public void setFax(StringProperty fax) {
 		this.fax = fax;
 	}
-	
-	public void setWork(StringProperty work){
-		this.work = work;
-	}
 
-	// TODO
-	public Map<String, String> getNumbers() {
-		Map<String, String> map = new HashMap<>();
-		if (this.getPrivate().get() != ""){
-			map.put("Privat", this.getPrivate().get());
-		}
-		if (this.getPrivate().get() != ""){
-			map.put("Privat", this.getPrivate().get());
-		}
-		if (this.getPrivate().get() != ""){
-			map.put("Privat", this.getPrivate().get());
-		}
-		if (this.getPrivate().get() != ""){
-			map.put("Privat", this.getPrivate().get());
-		}
-		return map;
+	public void setWork(StringProperty work) {
+		this.work = work;
 	}
 
 }

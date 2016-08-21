@@ -228,7 +228,6 @@ public class NewCustomerController {
 		newCustomer.setMail(new SimpleStringProperty(mail));
 		
 		// Format birthday
-		System.out.println("Birthday:" + birthday + "Ende");
 		if (birthday.length() > 1){
 			String[] dmy = birthday.split("\\.");
 			birthday = dmy[2] + "-" + dmy[1] + "-" + dmy[0];

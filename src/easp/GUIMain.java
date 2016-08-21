@@ -249,6 +249,19 @@ public class GUIMain extends Application {
 
 	public void insertNewCustomer(Customer c) {
 		connector.insertNewCustomer(c);
+		Map<String, String> numbers = c.getNumbers();
+		// Data needs to be updated to determine the id of new customer
+		updateCustomers();
+
+		// Find latest Customer to add numbers
+		Customer latestCustomer = new Customer();
+		for (Customer cus : customerData) {
+			if (cus.getId().get() > latestCustomer.getId().get()) {
+				latestCustomer = cus;
+			}
+		}
+
+		connector.insertNumbers(latestCustomer, numbers);
 		updateCustomers();
 	}
 
@@ -256,8 +269,8 @@ public class GUIMain extends Application {
 		connector.deleteCustomer(c);
 		updateCustomers();
 	}
-	
-	public void editCustomer(Customer c, String column, Object newValue){
+
+	public void editCustomer(Customer c, String column, Object newValue) {
 		connector.editCustomer(c, column, newValue);
 		updateCustomers();
 	}

@@ -34,21 +34,18 @@ import javafx.util.Pair;
 public class DBConnector {
 
 	private final String createDatabase = "CREATE DATABASE \"EASP\" ENCODING = 'UTF8' TABLESPACE = pg_default LC_COLLATE = 'de_DE.UTF-8' LC_CTYPE = 'de_DE.UTF-8' CONNECTION LIMIT = -1;";
-	private final String createTableCustomers = "CREATE TABLE kunden ("
-			+ "id BIGSERIAL PRIMARY KEY,"
+	private final String createTableCustomers = "CREATE TABLE kunden (" + "id BIGSERIAL PRIMARY KEY,"
 			+ "nachname character varying(50) NOT NULL," + "vorname character varying(50)," + "geburtsdatum date,"
 			+ "strasse character varying(100)," + "plz numeric(5,0)," + "ort character varying(100),"
 			+ "email character varying(100) )";
-	private final String createTableNummern = "CREATE TABLE nummern ("
-			+ "nummer character varying(50) PRIMARY KEY,"
-			+ "art character varying(30),"
-			+ "kunde BIGSERIAL,"
-			+ "FOREIGN KEY (kunde) REFERENCES kunden(id)"
+	private final String createTableNummern = "CREATE TABLE nummern (" + "nummer character varying(50),"
+			+ "art character varying(30)," + "kunde bigint," + "PRIMARY KEY (nummer, kunde)," + "FOREIGN KEY (kunde) REFERENCES kunden(id)"
 			+ "ON DELETE CASCADE );";
 	private final String getCustomerInformations = "SELECT * FROM kunden LEFT JOIN nummern ON kunden.id = nummern.kunde";
 	private final String insertCustomer = "INSERT INTO kunden (nachname, vorname, geburtsdatum, strasse, plz, ort, email) VALUES (?,?,?,?,?,?,?)";
 	private final String deleteCustomer = "DELETE FROM kunden WHERE id = ?";
 	private final String editCustomer = "UPDATE kunden SET ? = ? WHERE id = ?";
+	private final String insertNumber = "INSERT INTO nummern VALUES (?, ?, ?)";
 
 	Connection conn;
 	String username, password;
@@ -309,10 +306,7 @@ public class DBConnector {
 				// Format birthday to match "dd.mm.yyyy"
 				String birthday = r.getString("geburtsdatum");
 				String[] ymd = birthday.split("-");
-				for (int i = 0; i<ymd.length; i++){
-					System.out.println(ymd[i]);
-				}
-				if (!ymd[0].contains("1901")){
+				if (!ymd[0].contains("1901")) {
 					c.setBirthday(new SimpleStringProperty(ymd[2] + "." + ymd[1] + "." + ymd[0]));
 				} else {
 					c.setBirthday(new SimpleStringProperty(""));
@@ -392,7 +386,7 @@ public class DBConnector {
 				// Set missing informations to prepared statement
 				stmt.setString(1, c.getLastName().get());
 				stmt.setString(2, c.getFirstName().get());
-				if (c.getBirthday().get() != ""){
+				if (c.getBirthday().get() != "") {
 					stmt.setDate(3, Date.valueOf(c.getBirthday().get()));
 				} else {
 					stmt.setDate(3, Date.valueOf("1901-01-01"));
@@ -447,19 +441,25 @@ public class DBConnector {
 		}
 	}
 
-	// TODO
-	public void insertNewNumbers(Customer c) {
+	public void insertNumbers(Customer c, Map<String, String> numbers) {
 		if (conn != null) {
-			Map<String, String> numbers = c.getNumbers();
-			if (numbers.containsKey("Privat")) {
-				Statement stmt = prepareNumberStatement("Privat", numbers.get("Privat"));
+			for (String kind : numbers.keySet()) {
+				executeNumberStatement(kind, numbers.get(kind), c);
 			}
 		}
 	}
 
-	// TODO
-	private Statement prepareNumberStatement(String string, String string2) {
-		return null;
+	private void executeNumberStatement(String kind, String number, Customer c) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement(insertNumber);
+			stmt.setString(1, number);
+			stmt.setString(2, kind);
+			stmt.setInt(3, c.getId().get());
+			stmt.execute();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setOverviewController(CustomerOverviewController ctrl) {
