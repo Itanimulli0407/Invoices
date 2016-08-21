@@ -42,6 +42,7 @@ public class Customer {
 		// TODO: Continous customer ids
 	}
 
+	@Override
 	public String toString() {
 		return (firstName.toString() + "\n" + lastName.toString() + "\n" + birthday.toString() + "\n" + mail.toString()
 				+ "\n" + street.toString() + "\n" + zipCode.toString() + "\n" + city.toString() + "\n"

@@ -73,6 +73,7 @@ public class NewCustomerController {
 
 		// handle clear button
 		this.clearButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
 			public void handle(ActionEvent t) {
 				firstNameField.setText("");
 				nameField.setText("");
@@ -89,6 +90,7 @@ public class NewCustomerController {
 
 		// handle cancel Button
 		this.cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
 			public void handle(ActionEvent t) {
 				stage.close();
 			}
@@ -96,6 +98,7 @@ public class NewCustomerController {
 
 		// handle ok button
 		this.okButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
 			public void handle(ActionEvent t) {
 				if (checkInput()) {
 					setInformationsToCustomer();

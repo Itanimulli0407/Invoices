@@ -95,6 +95,7 @@ public class GUIMain extends Application {
 		MenuItem load = new MenuItem("Kundendatei Laden...");
 		MenuItem exit = new MenuItem("Beenden");
 		exit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
 			public void handle(ActionEvent t) {
 				System.exit(0);
 			}
@@ -105,6 +106,7 @@ public class GUIMain extends Application {
 		// TODO: setOnAction handling
 		MenuItem newCustomer = new MenuItem("Neuen Kunden anlegen");
 		newCustomer.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
 			public void handle(ActionEvent t) {
 				showNewCustomerView();
 			}
@@ -115,6 +117,7 @@ public class GUIMain extends Application {
 
 		MenuItem delete = new MenuItem("Kundendaten löschen");
 		delete.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
 			public void handle(ActionEvent t) {
 				if (overviewCtrl.getActCustomer() != null) {
 					deleteCustomer(overviewCtrl.getActCustomer());
@@ -128,6 +131,7 @@ public class GUIMain extends Application {
 		// TODO: setOnAction handling
 		MenuItem invoice = new MenuItem("Rechnung");
 		invoice.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
 			public void handle(ActionEvent t) {
 				if (GUIMain.this.overviewCtrl.getActCustomer() == null) {
 					Alert alert = new Alert(AlertType.ERROR);
