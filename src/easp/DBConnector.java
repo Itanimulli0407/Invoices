@@ -39,13 +39,14 @@ public class DBConnector {
 			+ "strasse character varying(100)," + "plz numeric(5,0)," + "ort character varying(100),"
 			+ "email character varying(100) )";
 	private final String createTableNummern = "CREATE TABLE nummern (" + "nummer character varying(50),"
-			+ "art character varying(30)," + "kunde bigint," + "PRIMARY KEY (nummer, kunde)," + "FOREIGN KEY (kunde) REFERENCES kunden(id)"
-			+ "ON DELETE CASCADE );";
+			+ "art character varying(30)," + "kunde bigint," + "PRIMARY KEY (nummer, kunde),"
+			+ "FOREIGN KEY (kunde) REFERENCES kunden(id)" + "ON DELETE CASCADE );";
 	private final String getCustomerInformations = "SELECT * FROM kunden LEFT JOIN nummern ON kunden.id = nummern.kunde";
 	private final String insertCustomer = "INSERT INTO kunden (nachname, vorname, geburtsdatum, strasse, plz, ort, email) VALUES (?,?,?,?,?,?,?)";
 	private final String deleteCustomer = "DELETE FROM kunden WHERE id = ?";
-	private final String editCustomer = "UPDATE kunden SET ? = ? WHERE id = ?";
+	private final String editCustomer = "UPDATE kunden SET nachname = ?, vorname = ?, geburtsdatum = ?, strasse = ?, plz = ?, ort = ?, email = ? WHERE id = ?";
 	private final String insertNumber = "INSERT INTO nummern VALUES (?, ?, ?)";
+	private final String updateNumber = "UPDATE nummern SET nummer = ? WHERE kunde = ?";
 
 	Connection conn;
 	String username, password;
@@ -424,17 +425,32 @@ public class DBConnector {
 		}
 	}
 
-	public void editCustomer(Customer c, String column, Object newValue) {
+	public void editCustomer(Customer c) {
 		if (conn != null) {
 			try {
-				// Fill in informations
+				// private final String editCustomer = "UPDATE kunden SET
+				// nachname = 1?, vorname = 2?, geburtsdatum = 3?, strasse = 4?, plz
+				// = 5?, ort = 6?, email = 7? WHERE id = ?";
+				
 				PreparedStatement stmt = conn.prepareStatement(editCustomer);
-				stmt.setString(1, column);
-				stmt.setObject(2, newValue); // <- TODO: Does this work?
-				stmt.setInt(3, c.getId().get());
-
-				// Execute Update
-				stmt.executeUpdate();
+				stmt.setString(1, c.getLastName().get());
+				stmt.setString(2, c.getFirstName().get());
+				if (c.getBirthday().get() != "") {
+					stmt.setDate(3, Date.valueOf(c.getBirthday().get()));
+				} else {
+					stmt.setDate(3, Date.valueOf("1901-01-01"));
+				}
+				stmt.setString(4, c.getStreet().get());
+				stmt.setInt(5, c.getZipCode().get());
+				stmt.setString(6, c.getCity().get());
+				stmt.setString(7, c.getMail().get());
+				stmt.setInt(8, c.getId().get());
+				
+				System.out.println(stmt);
+				
+				stmt.execute();
+				stmt.close();
+				
 			} catch (Exception e) {
 				System.err.println("Fehler: " + e);
 			}
@@ -449,6 +465,14 @@ public class DBConnector {
 		}
 	}
 
+	public void editNumbers(Customer c, Map<String, String> numbers) {
+		if (conn != null) {
+			for (String kind : numbers.keySet()) {
+				executeNumbersUpdate(numbers.get(kind), c);
+			}
+		}
+	}
+
 	private void executeNumberStatement(String kind, String number, Customer c) {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(insertNumber);
@@ -456,6 +480,20 @@ public class DBConnector {
 			stmt.setString(2, kind);
 			stmt.setInt(3, c.getId().get());
 			stmt.execute();
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void executeNumbersUpdate(String number, Customer c) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement(updateNumber);
+
+			stmt.setString(1, number);
+			stmt.setInt(2, c.getId().get());
+			stmt.execute();
+
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();

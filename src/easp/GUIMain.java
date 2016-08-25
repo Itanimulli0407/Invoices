@@ -21,7 +21,10 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -102,18 +105,25 @@ public class GUIMain extends Application {
 		});
 		menuFile.getItems().addAll(save, saveas, load, new SeparatorMenuItem(), exit);
 
-		// create entries for menuEdit
 		// TODO: setOnAction handling
 		MenuItem newCustomer = new MenuItem("Neuen Kunden anlegen");
 		newCustomer.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				showNewCustomerView();
+				showNewCustomerView(false, null);
 			}
 		});
 
 		// TODO: Implement this
 		MenuItem edit = new MenuItem("Kundendaten bearbeiten");
+		edit.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent t){
+				if (overviewCtrl.getActCustomer() != null){
+					showNewCustomerView(true, overviewCtrl.getActCustomer());
+				}
+			}
+		});
 
 		MenuItem delete = new MenuItem("Kundendaten löschen");
 		delete.setOnAction(new EventHandler<ActionEvent>() {
@@ -186,7 +196,7 @@ public class GUIMain extends Application {
 		}
 	}
 
-	private void showNewCustomerView() {
+	private void showNewCustomerView(boolean update, Customer c) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUIMain.class.getResource("view" + File.separator + "NewCustomerView.fxml"));
@@ -202,6 +212,8 @@ public class GUIMain extends Application {
 			NewCustomerController controller = loader.getController();
 			controller.setStage(popup);
 			controller.setMain(this);
+			// determines whether update or insertion
+			controller.setUpdate(update, c);
 
 			popup.showAndWait();
 		} catch (IOException e) {
@@ -274,8 +286,13 @@ public class GUIMain extends Application {
 		updateCustomers();
 	}
 
-	public void editCustomer(Customer c, String column, Object newValue) {
-		connector.editCustomer(c, column, newValue);
+	public void editCustomer(Customer c) {
+		// Edit entries in table "Kunden"
+		connector.editCustomer(c);
+		
+		// Edit entries in table "Nummern"
+		connector.editNumbers(c, c.getNumbers());
+		
 		updateCustomers();
 	}
 

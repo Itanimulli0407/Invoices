@@ -38,7 +38,7 @@ public class NewCustomerController {
 	private TextField workField;
 	@FXML
 	private TextField faxField;
-
+	
 	@FXML
 	private Button okButton;
 	@FXML
@@ -52,8 +52,15 @@ public class NewCustomerController {
 	private GUIMain main;
 	private Stage stage;
 
-	public NewCustomerController() {
+	/*
+	 * This boolean value indicates wether an update or a new customer operation
+	 * will be executed
+	 */
+	private boolean update;
+	private Customer toUpdate;
 
+	public NewCustomerController() {
+		
 	}
 
 	/**
@@ -63,6 +70,15 @@ public class NewCustomerController {
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
+	
+	// TODO:
+	public void setUpdate(boolean update, Customer c){
+		this.update = update;
+		this.toUpdate = c;
+		if (update) {
+			this.showCustomerInformations(c);
+		}
+	}
 
 	/**
 	 * Initialize function to set button actions for example
@@ -70,7 +86,7 @@ public class NewCustomerController {
 	@FXML
 	public void initialize() {
 		checker = new Checker();
-
+		
 		// handle clear button
 		this.clearButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -101,10 +117,15 @@ public class NewCustomerController {
 			@Override
 			public void handle(ActionEvent t) {
 				if (checkInput()) {
-					setInformationsToCustomer();
-					// TODO: this has to be stored in database
-					main.insertNewCustomer(newCustomer);
-					stage.close();
+					if (!update) {
+						setInformationsToCustomer();
+						main.insertNewCustomer(newCustomer);
+						stage.close();
+					} else {
+						setInformationsToCustomer();
+						main.editCustomer(newCustomer);
+						stage.close();
+					}
 				}
 			}
 		});
@@ -191,6 +212,19 @@ public class NewCustomerController {
 			}
 		});
 	}
+	
+	public void showCustomerInformations(Customer c){
+		this.newCustomer.setId(c.getId());
+		this.birthdayField.setText(c.getBirthday().get());
+		this.faxField.setText(c.getFax().get());
+		this.firstNameField.setText(c.getFirstName().get());
+		this.mailField.setText(c.getMail().get());
+		this.mobileField.setText(c.getMobile().get());
+		this.nameField.setText(c.getLastName().get());
+		this.privateField.setText(c.getPrivate().get());
+		this.streetField.setText(c.getStreet().get());
+		this.zipCityField.setText(c.getZipCode().get() + " " + c.getCity().get());
+	}
 
 	/**
 	 * Set entered informations to the new customer
@@ -209,7 +243,7 @@ public class NewCustomerController {
 
 		newCustomer.setFirstName(new SimpleStringProperty(firstName));
 		newCustomer.setLastName(new SimpleStringProperty(name));
-		
+
 		if (zipCity.length() != 0) {
 			String[] zipCityParts = zipCity.split(" ", 2);
 			if (zipCityParts[0].length() != 0) {
@@ -229,9 +263,9 @@ public class NewCustomerController {
 		}
 		newCustomer.setStreet(new SimpleStringProperty(street));
 		newCustomer.setMail(new SimpleStringProperty(mail));
-		
+
 		// Format birthday
-		if (birthday.length() > 1){
+		if (birthday.length() > 1) {
 			String[] dmy = birthday.split("\\.");
 			birthday = dmy[2] + "-" + dmy[1] + "-" + dmy[0];
 			newCustomer.setBirthday(new SimpleStringProperty(birthday));
@@ -239,7 +273,6 @@ public class NewCustomerController {
 			newCustomer.setBirthday(new SimpleStringProperty(""));
 		}
 
-		
 		newCustomer.setPrivate(new SimpleStringProperty(phone));
 		newCustomer.setMobile(new SimpleStringProperty(mobile));
 		newCustomer.setWork(new SimpleStringProperty(work));
@@ -346,6 +379,7 @@ public class NewCustomerController {
 			return true;
 		// input is fine
 	}
+
 
 	public void setMain(GUIMain main) {
 		this.main = main;

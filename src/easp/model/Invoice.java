@@ -10,8 +10,10 @@ public class Invoice {
 	private int customerID;
 	private double totalPrice;
 	private String date;
+	private int id;
 
 	public Invoice(int customerID, ArrayList<Position> positions) {
+		this.id = 0;
 		this.positions = positions;
 		this.customerID = customerID;
 		this.totalPrice = this.computeTotalPrice();
@@ -27,6 +29,10 @@ public class Invoice {
 		}
 		System.out.println(price);
 		return price;
+	}
+	
+	public int getID(){
+		return this.id;
 	}
 
 	public int getCustomerID() {

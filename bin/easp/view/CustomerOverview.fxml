@@ -16,7 +16,7 @@
    <children>
       <SplitPane dividerPositions="0.4" layoutX="380.0" layoutY="209.0" prefHeight="640.0" prefWidth="960.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane maxWidth="350.0" minHeight="0.0" minWidth="350.0" prefHeight="160.0" prefWidth="350.0">
+          <AnchorPane maxWidth="350.0" minHeight="0.0" minWidth="350.0" prefHeight="160.0" prefWidth="350.0" stylesheets="@style.css">
                <children>
                   <TableView fx:id="customerTable" layoutX="40.0" layoutY="181.0" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
@@ -30,7 +30,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" stylesheets="@style.css">
                <children>
                   <GridPane layoutX="59.0" layoutY="51.0" prefHeight="400.0" prefWidth="450.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="60.0">
                     <columnConstraints>
@@ -50,7 +50,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="DETAILANSICHT" underline="true">
+                        <Label prefHeight="35.0" prefWidth="450.0" styleClass="label-header" text="DETAILANSICHT" underline="true">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -58,7 +58,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Name" GridPane.rowIndex="1">
+                        <Label styleClass="label-bold" text="Name" GridPane.rowIndex="1">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -74,7 +74,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Adresse" GridPane.rowIndex="2">
+                        <Label styleClass="label-bold" text="Adresse" GridPane.rowIndex="2">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -90,7 +90,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Ort" GridPane.rowIndex="3">
+                        <Label styleClass="label-bold" text="Ort" GridPane.rowIndex="3">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -106,7 +106,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="EMail" GridPane.rowIndex="5">
+                        <Label styleClass="label-bold" text="EMail" GridPane.rowIndex="5">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -122,7 +122,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Privat" GridPane.rowIndex="6">
+                        <Label styleClass="label-bold" text="Privat" GridPane.rowIndex="6">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -138,7 +138,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Geburtstag" GridPane.rowIndex="4">
+                        <Label styleClass="label-bold" text="Geburtstag" GridPane.rowIndex="4">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -154,7 +154,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label text="Mobil" GridPane.rowIndex="7">
+                        <Label styleClass="label-bold" text="Mobil" GridPane.rowIndex="7">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
@@ -170,7 +170,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label text="Arbeit" GridPane.rowIndex="8">
+                        <Label styleClass="label-bold" text="Arbeit" GridPane.rowIndex="8">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
@@ -186,7 +186,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label text="Fax" GridPane.rowIndex="9">
+                        <Label styleClass="label-bold" text="Fax" GridPane.rowIndex="9">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
