@@ -2,7 +2,7 @@ package easp.view;
 
 import easp.Checker;
 import easp.GUIMain;
-import easp.InputException;
+import easp.exceptions.EASPException;
 import easp.model.Customer;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -57,7 +57,6 @@ public class NewCustomerController {
 	 * will be executed
 	 */
 	private boolean update;
-	private Customer toUpdate;
 
 	public NewCustomerController() {
 		
@@ -74,7 +73,6 @@ public class NewCustomerController {
 	// TODO:
 	public void setUpdate(boolean update, Customer c){
 		this.update = update;
-		this.toUpdate = c;
 		if (update) {
 			this.showCustomerInformations(c);
 		}
@@ -292,7 +290,7 @@ public class NewCustomerController {
 		try {
 			checker.checkFirstName(firstNameField.getText());
 			firstNameField.setStyle("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			firstNameField.setStyle(
 					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
@@ -301,7 +299,7 @@ public class NewCustomerController {
 		try {
 			checker.checkLastName(nameField.getText());
 			nameField.setStyle("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			nameField.setStyle(
 					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
@@ -310,7 +308,7 @@ public class NewCustomerController {
 		try {
 			checker.checkBirthday(birthdayField.getText());
 			birthdayField.setStyle("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			birthdayField.setStyle(
 					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
@@ -319,7 +317,7 @@ public class NewCustomerController {
 		try {
 			checker.checkPhoneNumber(privateField.getText());
 			privateField.setStyle("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			privateField.setStyle(
 					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
@@ -328,7 +326,7 @@ public class NewCustomerController {
 		try {
 			checker.checkPhoneNumber(mobileField.getText());
 			mobileField.setStyle("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			mobileField.setStyle(
 					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
@@ -337,7 +335,7 @@ public class NewCustomerController {
 		try {
 			checker.checkPhoneNumber(workField.getText());
 			workField.setStyle("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			workField.setStyle(
 					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
@@ -346,7 +344,7 @@ public class NewCustomerController {
 		try {
 			checker.checkPhoneNumber(faxField.getText());
 			faxField.setStyle("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			faxField.setStyle(
 					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
@@ -355,7 +353,7 @@ public class NewCustomerController {
 		try {
 			checker.checkMail(mailField.getText());
 			mailField.setStyle("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			mailField.setStyle(
 					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			thrown = true;
@@ -365,7 +363,7 @@ public class NewCustomerController {
 			checker.checkAdress(streetField.getText(), zipCityField.getText());
 			streetField.setStyle("");
 			zipCityField.setStyle("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			streetField.setStyle(
 					"-fx-border-color: red; -fx-border-width: 2; -fx-border-radius: 5 5 5 5; -fx-background-radius: 5 5 5 5;");
 			zipCityField.setStyle(

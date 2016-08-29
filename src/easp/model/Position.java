@@ -3,7 +3,7 @@ package easp.model;
 import java.text.DecimalFormat;
 
 import easp.Checker;
-import easp.InputException;
+import easp.exceptions.EASPException;
 import easp.view.NewInvoiceController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -246,31 +246,31 @@ public class Position {
 		boolean thrown = false;
 		try {
 			checker.checkTitle(titleField.getText());
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			titleField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}
 		try {
 			checker.checkArticle(articleField.getText());
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			articleField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}
 		try {
 			checker.checkAmount(amountField.getText());
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			amountField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}
 		try {
 			checker.checkUnit(unitField.getText());
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			unitField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}
 		try {
 			checker.checkPPU(pricePerUnitField.getText());
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			pricePerUnitField.setStyle(this.ERROR_FORMAT);
 			thrown = true;
 		}

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import easp.Checker;
-import easp.InputException;
+import easp.exceptions.EASPException;
 
 public class CheckerTests {
 
@@ -26,7 +26,7 @@ public class CheckerTests {
 		try {
 			c.checkFirstName("Karl");
 			c.checkLastName("Meyer");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			fail("\"Karl Meyer\" is a valid firstname");
 		}
 	}
@@ -36,7 +36,7 @@ public class CheckerTests {
 		try {
 			c.checkFirstName("Karl-Heinz-Günther");
 			c.checkLastName("Von und Zu Lüttenhörn");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			fail("\"Karl-Heinz-Günther Von und Zu Lüttenhörn\"");
 		}
 	}
@@ -46,7 +46,7 @@ public class CheckerTests {
 		try {
 			c.checkFirstName("Annel1ese");
 			fail("\"Annel1ese\" is not a valid name");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 
 		}
 	}
@@ -56,7 +56,7 @@ public class CheckerTests {
 		try {
 			c.checkLastName("F4G0T");
 			fail("\"F4G0T\" is not a valid name");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 
 		}
 	}
@@ -66,7 +66,7 @@ public class CheckerTests {
 		try {
 			c.checkFirstName("!Franz");
 			fail("\"!Franz\" is not a valid name");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 
 		}
 	}
@@ -76,7 +76,7 @@ public class CheckerTests {
 		try {
 			c.checkLastName("()R");
 			fail("\"()R\" is not a valid name");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 
 		}
 	}
@@ -88,7 +88,7 @@ public class CheckerTests {
 			c.checkBirthday("29.03.2003");
 			c.checkBirthday("04.07.1996");
 			c.checkBirthday("01.01.1980");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			fail("The given birthdays should all be valid");
 		}
 	}
@@ -98,7 +98,7 @@ public class CheckerTests {
 		try {
 			c.checkBirthday("1996.07.04");
 			fail("The given birthday should'nt be valid");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 		}
 	}
 
@@ -107,7 +107,7 @@ public class CheckerTests {
 		try {
 			c.checkBirthday("ab.b§.1996");
 			fail("The given birthday should'nt be valid");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 		}
 	}
 
@@ -116,7 +116,7 @@ public class CheckerTests {
 		try {
 			c.checkBirthday("01.$a.1996");
 			fail("The given birthday should'nt be valid");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 		}
 	}
 
@@ -125,7 +125,7 @@ public class CheckerTests {
 		try {
 			c.checkBirthday("01.05.7h\"8");
 			fail("The given birthday should'nt be valid");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 		}
 	}
 
@@ -134,7 +134,7 @@ public class CheckerTests {
 		try {
 			c.checkBirthday("01-02-1996");
 			fail("The given birthday should'nt be valid");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 		}
 	}
 
@@ -142,7 +142,7 @@ public class CheckerTests {
 	public void birthdayCheckEmpty() {
 		try {
 			c.checkBirthday("");
-		} catch (InputException e) {
+		} catch (EASPException e) {
 			fail("The given birthdays should all be valid");
 		}
 	}

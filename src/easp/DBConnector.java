@@ -429,9 +429,10 @@ public class DBConnector {
 		if (conn != null) {
 			try {
 				// private final String editCustomer = "UPDATE kunden SET
-				// nachname = 1?, vorname = 2?, geburtsdatum = 3?, strasse = 4?, plz
+				// nachname = 1?, vorname = 2?, geburtsdatum = 3?, strasse = 4?,
+				// plz
 				// = 5?, ort = 6?, email = 7? WHERE id = ?";
-				
+
 				PreparedStatement stmt = conn.prepareStatement(editCustomer);
 				stmt.setString(1, c.getLastName().get());
 				stmt.setString(2, c.getFirstName().get());
@@ -445,12 +446,12 @@ public class DBConnector {
 				stmt.setString(6, c.getCity().get());
 				stmt.setString(7, c.getMail().get());
 				stmt.setInt(8, c.getId().get());
-				
+
 				System.out.println(stmt);
-				
+
 				stmt.execute();
 				stmt.close();
-				
+
 			} catch (Exception e) {
 				System.err.println("Fehler: " + e);
 			}

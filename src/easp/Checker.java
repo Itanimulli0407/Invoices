@@ -1,6 +1,6 @@
 package easp;
 
-import easp.InputException;
+import easp.exceptions.EASPException;
 
 public class Checker {
 
@@ -11,39 +11,39 @@ public class Checker {
 	/**
 	 * 
 	 * @param s
-	 * @throws InputException
+	 * @throws EASPException
 	 */
-	public void checkFirstName(String s) throws InputException {
+	public void checkFirstName(String s) throws EASPException {
 		if (!s.matches("[a-zA-Z\\-\\söüäß]*")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 		if (s.equals("")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 	}
 
 	/**
 	 * 
 	 * @param s
-	 * @throws InputException
+	 * @throws EASPException
 	 */
-	public void checkLastName(String s) throws InputException {
+	public void checkLastName(String s) throws EASPException {
 		if (!s.matches("[a-zA-Z\\-\\söüäß]*")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 		if (s.equals("")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 	}
 
 	/**
 	 * 
 	 * @param s
-	 * @throws InputException
+	 * @throws EASPException
 	 */
-	public void checkBirthday(String s) throws InputException {
+	public void checkBirthday(String s) throws EASPException {
 		if (!s.equals("") && !s.matches("\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 	}
 
@@ -51,69 +51,69 @@ public class Checker {
 	 * 
 	 * @param street
 	 * @param zipCity
-	 * @throws InputException
+	 * @throws EASPException
 	 */
-	public void checkAdress(String street, String zipCity) throws InputException {
+	public void checkAdress(String street, String zipCity) throws EASPException {
 		if (street.equals("") || zipCity.equals("")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 		if (!street.matches("[a-zA-Z_0-9öüäß\\-\\s]*")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 		if (!zipCity.matches("[0-9]*\\s[a-zA-Z_0-9öüäß\\-\\s]*")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 	}
 
 	/**
 	 * 
 	 * @param n
-	 * @throws InputException
+	 * @throws EASPException
 	 */
-	public void checkPhoneNumber(String n) throws InputException {
+	public void checkPhoneNumber(String n) throws EASPException {
 		if (!n.matches("[0-9\\-_/\\s+]*") && !n.equals("")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 	}
 
 	/**
 	 * 
 	 * @param m
-	 * @throws InputException
+	 * @throws EASPException
 	 */
-	public void checkMail(String m) throws InputException {
+	public void checkMail(String m) throws EASPException {
 		if (!m.matches("[a-z0-9\\.\\-_]*@[a-z0-9\\.\\-_]*") && !m.equals("")) {
-			throw (new InputException());
+			throw (new EASPException());
 		}
 	}
 	
-	public void checkTitle(String title) throws InputException {
+	public void checkTitle(String title) throws EASPException {
 		if (title.length() > 25){
-			throw (new InputException());
+			throw (new EASPException());
 		}
 	}
 	
-	public void checkArticle(String article) throws InputException{
+	public void checkArticle(String article) throws EASPException{
 		if (article.equals("")){
-			throw new InputException();
+			throw new EASPException();
 		}
 	}
 	
-	public void checkAmount(String amount) throws InputException{
+	public void checkAmount(String amount) throws EASPException{
 		if (amount.equals("")){
-			throw new InputException();
+			throw new EASPException();
 		}
 	}
 	
-	public void checkUnit(String unit) throws InputException{
+	public void checkUnit(String unit) throws EASPException{
 		if (unit.equals("")){
-			throw new InputException();
+			throw new EASPException();
 		}
 	}
 	
-	public void checkPPU(String ppu) throws InputException{
+	public void checkPPU(String ppu) throws EASPException{
 		if (ppu.equals("")){
-			throw new InputException();
+			throw new EASPException();
 		}
 	}
 

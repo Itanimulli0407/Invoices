@@ -1,11 +1,11 @@
-package easp;
+package easp.exceptions;
 
-public class InputException extends Exception {
+public class EASPException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public InputException() {
+	public EASPException() {
 		super("Es liegt ein Fehler bei der Eingabe vor");
 	}
-	
+		
 }

@@ -25,6 +25,7 @@ public class Customer {
 	/**
 	 * Creates a new customer with only default values set.
 	 */
+	// TODO: null Werte zulassen -> Im Customer Overview abfangen
 	public Customer() {
 		this.firstName = new SimpleStringProperty("");
 		this.lastName = new SimpleStringProperty("");
@@ -38,8 +39,6 @@ public class Customer {
 		this.work = new SimpleStringProperty("");
 		this.fax = new SimpleStringProperty("");
 		this.id = new SimpleIntegerProperty(0);
-
-		// TODO: Continous customer ids
 	}
 
 	@Override
