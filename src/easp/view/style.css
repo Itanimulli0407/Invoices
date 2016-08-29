@@ -1,0 +1,26 @@
+.background{
+	-fx-background-color: crimson;
+}
+
+.label { 
+	-fx-font-family: "Helvetica";
+	-fx-font-size: 11pt;
+}
+
+.label-header{
+	-fx-font-family: "Helvetica";
+	-fx-font-size: 15pt;
+	-fx-font-weight: bold;
+}
+
+.label-bold{
+	-fx-font-family: "Helvetica";
+	-fx-font-size: 12pt;
+	-fx-font-weight: bold;
+}
+
+.table-view {
+	-fx-font-family: "Helvetica";
+	-fx-font-size: 11pt;
+	-fx-background-color: transparent;
+}
