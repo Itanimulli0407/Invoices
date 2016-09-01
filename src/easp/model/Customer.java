@@ -22,9 +22,6 @@ public class Customer {
 	private StringProperty fax;
 	private IntegerProperty id;
 
-	/**
-	 * Creates a new customer with only default values set.
-	 */
 	// TODO: null Werte zulassen -> Im Customer Overview abfangen
 	public Customer() {
 		this.firstName = new SimpleStringProperty("");
